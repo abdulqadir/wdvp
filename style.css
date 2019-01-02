@@ -1,0 +1,58 @@
+body {
+    width: 100%;
+    height: 100%;
+    font-family: 'Montserrat', sans;
+    font-weight: 400;
+    font-size: 0.9em;
+    margin: 0;
+    color: #212121;
+    background-color: #FFFFF3;
+}
+.title {
+    font-family: 'Playfair Display';
+    text-shadow: 2px 2px 1px #d7d2c8;
+}
+h1 {
+    text-align: center;
+}
+a {
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    font-weight: 400;
+    color: #531d1d;
+}
+.lhdi {
+    fill: #ff2b35;
+    color: #ff2b35;
+    font-weight: 500;
+}
+.mhdi {
+    fill: #ffab00;
+    color: #ffab00;
+    font-weight: 500;
+}
+.hhdi {
+    fill: #35ddb3;
+    color: #35ddb3;
+    font-weight: 500;
+}
+.vhdi {
+    fill: #002153;
+    color: #002153;
+    font-weight: 500;
+}
+.nodata {
+    fill: #d7d2c8;
+    color: #d7d2c8;
+}
+.footer {
+    text-align: center;
+    font-size: 0.7em;
+}
+#wdvp-logo {
+    height: 53px;
+    width: 172px;
+}
+#wdvp-logo img {
+    height: 53px;
+}
