@@ -1,7 +1,7 @@
 body {
     width: 100%;
     height: 100%;
-    font-family: 'Montserrat', sans;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 400;
     font-size: 0.9em;
     margin: 0;
@@ -9,11 +9,11 @@ body {
     background-color: #FFFFF3;
 }
 .title {
-    font-family: 'Playfair Display';
+    font-family: 'Playfair Display', serif;
     text-shadow: 2px 2px 1px #d7d2c8;
 }
 h1 {
-    text-align: center;
+    font-size: 2.1rem;
 }
 a {
     text-decoration: underline;
