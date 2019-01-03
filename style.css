@@ -45,6 +45,15 @@ a {
     fill: #d7d2c8;
     color: #d7d2c8;
 }
+line {
+    stroke-width: 1px;
+}
+.y1y2 {
+    stroke: #0085B1;
+}
+.y2y1 {
+    stroke: #FF8700;
+}
 .footer {
     text-align: center;
     font-size: 0.7em;

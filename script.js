@@ -28,26 +28,51 @@ svg.selectAll('rect').data(ddata).enter().append('rect')
         dlabel.text(d['indicator'] + ' ' + d['human development index']);
     });
 
-var plot = function(x, y) {
-    var plotdata = _.filter(data, function(c){return isFinite(c[x]) && isFinite(c[y]);})
+var plot = function(x, y1, y2) {
+    var plotdata = _.filter(data, function(c){return isFinite(c[x]) && isFinite(c[y1]) && isFinite(c[y2]);})
     return {
         data: plotdata,
-        xscale: d3.scaleLinear().domain([0,_.max(plotdata, function(c){return Number(c[x]);})[x]]).range([0,950]),
-        yscale: d3.scaleLinear().domain([0,_.max(plotdata, function(c){return Number(c[y]);})[y]]).range([290, 10]),
+        xscale: d3.scaleLinear().domain([_.min(plotdata, function(c){return Number(c[x]);})[x],_.max(plotdata, function(c){return Number(c[x]);})[x]]).range([10,950]),
+        yscale: d3.scaleLinear().domain([0,_.max(
+            [
+                Number(_.max(plotdata, function(c){return Number(c[y1]);})[y1]),
+                Number(_.max(plotdata, function(c){return Number(c[y2]);})[y2])
+            ])])
+            .range([290, 10]),
         draw: function(elem) {
             elem.attr('width', 960).attr('height', 300);
             var xscale = this.xscale;
             var yscale = this.yscale;
-            elem.selectAll('circle').data(plotdata).enter().append('circle').attr('cx',function(d){return xscale(d[x]);}).attr('cy',function(d){return yscale(d[y]);}).attr('r',5)
-                .attr('data-country', function(d){ return d['indicator']; })
-                .attr('data-gdp', function(d) {return d[x];})
-                .attr('data-healthexp', function(d) {return d[y];})
-                .attr('class', classifyHDI);
+            var g = elem.selectAll('g').data(plotdata).enter().append('g')
+                .attr('data-country', function(d){return d['indicator'];})
+                .attr('data-x', function(d) {return d[x];})
+                .attr('data-y1', function(d) {return d[y1];})
+                .attr('data-y2', function(d) {return d[y2];})
+                .classed('lhdi', lhdi)
+                .classed('mhdi', mhdi)
+                .classed('hhdi', hhdi)
+                .classed('vhdi', vhdi);
+            g.append('line').attr('x1', function(d) {return xscale(d[x])}).attr('x2', function(d) {return xscale(d[x])}).attr('y1', function(d) {return yscale(d[y1])}).attr('y2',function(d) {return yscale(d[y2])})
+                .attr('class', function(d) {
+                    if (Number(d[y1]) > Number(d[y2])) {
+                        return 'y1y2';
+                    }
+                    else {
+                        return 'y2y1';
+                    }
+                });
+            g.append('circle')
+                .attr('cx',function(d){return xscale(d[x]);})
+                .attr('cy',function(d){return yscale(d[y1]);})
+                .attr('r',3)
+                .attr('class', 'y1');
+            g.append('circle')
+                .attr('cx',function(d){return xscale(d[x]);})
+                .attr('cy',function(d){return yscale(d[y2]);})
+                .attr('r',3)
+                .attr('class', 'y2');
         }
     }
 }
-var p1 = plot('GDP per capita (PPP)', 'health expenditure \n% of GDP');
+var p1 = plot('human development index', 'health expenditure \n% of GDP', 'education expenditure\n% of GDP');
 p1.draw(d3.select('#plot'));
-
-var p2 = plot('GDP per capita (PPP)', 'education expenditure\n% of GDP');
-p2.draw(d3.select('#plot2'));
