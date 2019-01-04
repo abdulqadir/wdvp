@@ -28,19 +28,24 @@ svg.selectAll('rect').data(ddata).enter().append('rect')
         dlabel.text(d['indicator'] + ' ' + d['human development index']);
     });
 
-var plot = function(x, y1, y2) {
+var dumbbell = function(x, y1, y2) {
     var plotdata = _.filter(data, function(c){return isFinite(c[x]) && isFinite(c[y1]) && isFinite(c[y2]);})
     return {
         data: plotdata,
-        xscale: d3.scaleLinear().domain([_.min(plotdata, function(c){return Number(c[x]);})[x],_.max(plotdata, function(c){return Number(c[x]);})[x]]).range([10,950]),
-        yscale: d3.scaleLinear().domain([0,_.max(
+        xscale: d3.scaleLinear().domain([_.min(plotdata, function(c){return Number(c[x]);})[x],_.max(plotdata, function(c){return Number(c[x]);})[x]]).range([10,1130]),
+        yscale: d3.scaleLinear().domain([_.min(
+            [
+                Number(_.min(plotdata, function(c){return Number(c[y1]);})[y1]),
+                Number(_.min(plotdata, function(c){return Number(c[y2]);})[y2])
+            ])
+            ,_.max(
             [
                 Number(_.max(plotdata, function(c){return Number(c[y1]);})[y1]),
                 Number(_.max(plotdata, function(c){return Number(c[y2]);})[y2])
             ])])
             .range([290, 10]),
         draw: function(elem) {
-            elem.attr('width', 960).attr('height', 300);
+            elem.attr('width', 1140).attr('height', 300);
             var xscale = this.xscale;
             var yscale = this.yscale;
             var g = elem.selectAll('g').data(plotdata).enter().append('g')
@@ -64,15 +69,55 @@ var plot = function(x, y1, y2) {
             g.append('circle')
                 .attr('cx',function(d){return xscale(d[x]);})
                 .attr('cy',function(d){return yscale(d[y1]);})
-                .attr('r',3)
+                .attr('r',3.5)
                 .attr('class', 'y1');
             g.append('circle')
                 .attr('cx',function(d){return xscale(d[x]);})
                 .attr('cy',function(d){return yscale(d[y2]);})
-                .attr('r',3)
+                .attr('r',3.5)
                 .attr('class', 'y2');
         }
     }
 }
-var p1 = plot('human development index', 'health expenditure \n% of GDP', 'education expenditure\n% of GDP');
+var p1 = dumbbell('human development index', 'health expenditure \n% of GDP', 'education expenditure\n% of GDP');
 p1.draw(d3.select('#plot'));
+
+var scatter = function(x, y) {
+    var plotdata = _.filter(data, function(c){return isFinite(c[x]) && isFinite(c[y]);})
+    return {
+        data: plotdata,
+        xscale: d3.scaleLinear().domain([_.min(plotdata, function(c){return Number(c[x]);})[x],_.max(plotdata, function(c){return Number(c[x]);})[x]]).range([10,1130]),
+        yscale: d3.scaleLinear().domain([
+                Number(_.min(plotdata, function(c){return Number(c[y]);})[y]),
+                Number(_.max(plotdata, function(c){return Number(c[y]);})[y])
+            ])
+            .range([290, 10]),
+        draw: function(elem) {
+            elem.attr('width', 1140).attr('height', 300);
+            var xscale = this.xscale;
+            var yscale = this.yscale;
+            var g = elem.selectAll('g').data(plotdata).enter().append('g')
+                .attr('data-country', function(d){return d['indicator'];})
+                .attr('data-x', function(d) {return d[x];})
+                .attr('data-y', function(d) {return d[y];})
+                .classed('lhdi', lhdi)
+                .classed('mhdi', mhdi)
+                .classed('hhdi', hhdi)
+                .classed('vhdi', vhdi);
+            g.append('circle')
+                .attr('cx',function(d){return xscale(d[x]);})
+                .attr('cy',function(d){return yscale(d[y]);})
+                .attr('r',3.5)
+                .attr('class', 'y');
+        }
+    }
+}
+var s;
+s = scatter('human development index', 'political stability & absence of violence');
+s.draw(d3.select('#s1'));
+s = scatter('human development index', 'government effectiveness');
+s.draw(d3.select('#s2'));
+s = scatter('human development index', 'regulatory quality');
+s.draw(d3.select('#s3'));
+s = scatter('human development index', 'rule of law');
+s.draw(d3.select('#s4'));
