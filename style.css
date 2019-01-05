@@ -47,6 +47,7 @@ a {
 }
 line {
     stroke-width: 1px;
+    stroke: #EED;
 }
 .y1y2 {
     stroke: #0085B1;

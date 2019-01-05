@@ -23,7 +23,7 @@ var ddata = _.sortBy(_.filter(data, function(c){return isFinite(c['human develop
 var dlabel = svg.append('text').attr('x',5).attr('y', 300).attr('width',53).attr('height',27);
 svg.selectAll('rect').data(ddata).enter().append('rect')
     .attr('class', classifyHDI)
-    .attr('x',function(d,i){return (i%15)*21+5;}).attr('y', function(d,i){return Math.floor(i/15)*21+5;}).attr('width',11).attr('height',11).attr('rx', 3).attr('ry', 3)
+    .attr('x',function(d,i){return (i%15)*21+5;}).attr('y', function(d,i){return Math.floor(i/15)*21+5;}).attr('width',10).attr('height',10).attr('rx', 3).attr('ry', 3)
     .on('mouseover', function(d) {
         dlabel.text(d['indicator'] + ' ' + d['human development index']);
     });
@@ -82,42 +82,49 @@ var dumbbell = function(x, y1, y2) {
 var p1 = dumbbell('human development index', 'health expenditure \n% of GDP', 'education expenditure\n% of GDP');
 p1.draw(d3.select('#plot'));
 
-var scatter = function(x, y) {
+var plot = function(x, y) {
     var plotdata = _.filter(data, function(c){return isFinite(c[x]) && isFinite(c[y]);})
+    var ydomain = [-2.5, 2.5];
+    var colorscale =  d3.scaleQuantize().domain([-2.5, 2.5]).range(['#FF35FD','#FF3535','#FF5300','#FFB505','#FFE526','#6AE71E','#53ECDA','#07BDE7','#0571D4','#2D1FCF']);
+    var height = 200;
     return {
         data: plotdata,
         xscale: d3.scaleLinear().domain([_.min(plotdata, function(c){return Number(c[x]);})[x],_.max(plotdata, function(c){return Number(c[x]);})[x]]).range([10,1130]),
-        yscale: d3.scaleLinear().domain([
-                Number(_.min(plotdata, function(c){return Number(c[y]);})[y]),
-                Number(_.max(plotdata, function(c){return Number(c[y]);})[y])
-            ])
-            .range([290, 10]),
+        yscale: d3.scaleLinear().domain(ydomain).range([height - 10, 10]),
         draw: function(elem) {
-            elem.attr('width', 1140).attr('height', 300);
+            elem.attr('width', 1140).attr('height', height);
             var xscale = this.xscale;
             var yscale = this.yscale;
+            elem.append('rect').attr('x',xscale.domain()[0]).attr('y',0).attr('width',xscale(0.55)).attr('height',height)
+                .attr('class','lhdi').attr('opacity',0.1);
+            elem.append('rect').attr('x',xscale(0.55)).attr('y',0).attr('width',xscale(0.7)-xscale(0.55)).attr('height',height)
+                .attr('class','mhdi').attr('opacity',0.1);
+            elem.append('rect').attr('x',xscale(0.7)).attr('y',0).attr('width',xscale(0.8)-xscale(0.7)).attr('height',height)
+                .attr('class','hhdi').attr('opacity',0.1);
+            elem.append('rect').attr('x',xscale(0.8)).attr('y',0).attr('width',1140-xscale(0.8)).attr('height',height)
+                .attr('class','vhdi').attr('opacity',0.1);
+            elem.append('line').attr('x1',0).attr('x2',1140).attr('y1',yscale(0)).attr('y2',yscale(0));
             var g = elem.selectAll('g').data(plotdata).enter().append('g')
                 .attr('data-country', function(d){return d['indicator'];})
                 .attr('data-x', function(d) {return d[x];})
                 .attr('data-y', function(d) {return d[y];})
-                .classed('lhdi', lhdi)
-                .classed('mhdi', mhdi)
-                .classed('hhdi', hhdi)
-                .classed('vhdi', vhdi);
             g.append('circle')
                 .attr('cx',function(d){return xscale(d[x]);})
                 .attr('cy',function(d){return yscale(d[y]);})
-                .attr('r',3.5)
-                .attr('class', 'y');
+                .attr('r',2.5)
+                .attr('class', 'y')
+                .style('stroke', function(d){return d3.color(colorscale(d[y])).darker()})
+                .style('stroke-width','1px').style('stroke-opacity','0.53')
+                .style('fill', function(d) {return colorscale(d[y]);});
         }
     }
 }
 var s;
-s = scatter('human development index', 'political stability & absence of violence');
+s = plot('human development index', 'political stability & absence of violence');
 s.draw(d3.select('#s1'));
-s = scatter('human development index', 'government effectiveness');
+s = plot('human development index', 'government effectiveness');
 s.draw(d3.select('#s2'));
-s = scatter('human development index', 'regulatory quality');
+s = plot('human development index', 'regulatory quality');
 s.draw(d3.select('#s3'));
-s = scatter('human development index', 'rule of law');
+s = plot('human development index', 'rule of law');
 s.draw(d3.select('#s4'));
