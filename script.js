@@ -19,9 +19,9 @@ var classifyHDI = function(d) {
 }
 
 var svg = d3.select('#distribution').attr('width',350).attr('height', 321);
-var ddata = _.sortBy(_.filter(data, function(c){return isFinite(c['human development index']);}), function(c){return Number(c['human development index']);}).concat(_.filter(data, function(c){return !isFinite(c['human development index'])}));
+var ddata = _.sortBy(_.filter(data, function(c){return isFinite(c['human development index']);}), function(c){return Number(c['human development index']);});
 var dlabel = svg.append('text').attr('x',5).attr('y', 300).attr('width',53).attr('height',27);
-svg.selectAll('rect').data(ddata).enter().append('rect')
+svg.selectAll('rect').data(ddata.concat(_.filter(data, function(c){return !isFinite(c['human development index'])}))).enter().append('rect')
     .attr('class', classifyHDI)
     .attr('x',function(d,i){return (i%15)*21+5;}).attr('y', function(d,i){return Math.floor(i/15)*21+5;}).attr('width',10).attr('height',10).attr('rx', 3).attr('ry', 3)
     .on('mouseover', function(d) {
@@ -128,3 +128,58 @@ s = plot('human development index', 'regulatory quality');
 s.draw(d3.select('#s3'));
 s = plot('human development index', 'rule of law');
 s.draw(d3.select('#s4'));
+
+var circularPlot = function(y, outerRadius) {
+    var ydomain = [-2.5, 2.5];
+    var colorscale =  d3.scaleQuantize().domain([-2.5, 2.5]).range(['#FF35AA','#FF3535','#FF5300','#FFB505','#FFE526','#6AE71E','#53ECDA','#07BDE7','#0571D4','#2D1FCF']);
+    return {
+        draw: function(elem) {
+            var g = elem.append('g').attr('transform','translate(570, 530)');
+            var stops = [2.0, 1.5, 1.0, 0.5, 0, 0, -0.5, -1.0, -1.5, -2.0];
+            for (var s=0; s<stops.length; s++) {
+                var v = stops[s];
+                arc.outerRadius(outerRadius).innerRadius(outerRadius - 3);
+                g.selectAll('.v-' + String(v).replace('.','')).data(ddata).enter().append('path').attr('d', function(d,i) {
+                    if ((s < (stops.length/2) && Number(d[y]) > v) || (s >= stops.length/2 && Number(d[y]) < v)) {
+                        arc.startAngle(i * arcLength).endAngle((i * arcLength) + (0.7 * arcLength));
+                        return arc();
+                    }
+                })
+                .attr('data-country', function(d){return d['indicator'];})
+                .attr('data-y', function(d) {return d[y];})
+                .style('fill', function(d,i) {
+                    return colorscale(d[y]);
+                });
+                outerRadius = outerRadius - 5;
+            }
+        }
+    }
+}
+var circular = d3.select('#circular').attr('width','1140').attr('height','1140');
+var gbackground = circular.append('g').attr('transform','translate(570, 530)');
+var arc = d3.arc();
+var arcLength = Math.PI * 2 / ddata.length;
+arc.outerRadius(450).innerRadius(250);
+var startAngle = 0, endAngle = arcLength * _.filter(ddata, lhdi).length;
+arc.startAngle(startAngle).endAngle(endAngle);
+gbackground.append('path').attr('d', arc()).attr('class','lhdi').style('opacity','0.1');
+startAngle = endAngle;
+endAngle = endAngle + (arcLength * _.filter(ddata, mhdi).length);
+arc.startAngle(startAngle).endAngle(endAngle);
+gbackground.append('path').attr('d', arc()).attr('class','mhdi').style('opacity','0.1');
+startAngle = endAngle;
+endAngle = endAngle + (arcLength * _.filter(ddata, hhdi).length);
+arc.startAngle(startAngle).endAngle(endAngle);
+gbackground.append('path').attr('d', arc()).attr('class','hhdi').style('opacity','0.1');
+startAngle = endAngle;
+endAngle = endAngle + (arcLength * _.filter(ddata, vhdi).length);
+arc.startAngle(startAngle).endAngle(endAngle);
+gbackground.append('path').attr('d', arc()).attr('class','vhdi').style('opacity','0.1');
+var c = circularPlot('rule of law', 450);
+c.draw(circular);
+c = circularPlot('regulatory quality', 400);
+c.draw(circular);
+c = circularPlot('government effectiveness', 350);
+c.draw(circular);
+c = circularPlot('political stability & absence of violence', 300);
+c.draw(circular);
