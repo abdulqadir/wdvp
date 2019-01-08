@@ -45,6 +45,11 @@ a {
     fill: #d7d2c8;
     color: #d7d2c8;
 }
+path.lhdi, path.mhdi, path.hhdi, path.vhdi {
+    stroke: #FFE;
+    stroke-width: 1px;
+    opacity: 0.1;
+}
 line {
     stroke-width: 1px;
     stroke: #EED;

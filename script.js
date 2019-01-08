@@ -136,12 +136,13 @@ var circularPlot = function(y, outerRadius) {
         draw: function(elem) {
             var g = elem.append('g').attr('transform','translate(570, 530)');
             var stops = [2.0, 1.5, 1.0, 0.5, 0, 0, -0.5, -1.0, -1.5, -2.0];
+            arc.cornerRadius(2);
             for (var s=0; s<stops.length; s++) {
                 var v = stops[s];
                 arc.outerRadius(outerRadius).innerRadius(outerRadius - 3);
                 g.selectAll('.v-' + String(v).replace('.','')).data(ddata).enter().append('path').attr('d', function(d,i) {
                     if ((s < (stops.length/2) && Number(d[y]) > v) || (s >= stops.length/2 && Number(d[y]) < v)) {
-                        arc.startAngle(i * arcLength).endAngle((i * arcLength) + (0.7 * arcLength));
+                        arc.startAngle(i * arcLength + (0.15*arcLength)).endAngle((i * arcLength) + (0.8 * arcLength));
                         return arc();
                     }
                 })
@@ -155,26 +156,17 @@ var circularPlot = function(y, outerRadius) {
         }
     }
 }
-var circular = d3.select('#circular').attr('width','1140').attr('height','1140');
+var circular = d3.select('#circular').attr('width','1140').attr('height','1052');
 var gbackground = circular.append('g').attr('transform','translate(570, 530)');
 var arc = d3.arc();
 var arcLength = Math.PI * 2 / ddata.length;
 arc.outerRadius(450).innerRadius(250);
-var startAngle = 0, endAngle = arcLength * _.filter(ddata, lhdi).length;
-arc.startAngle(startAngle).endAngle(endAngle);
-gbackground.append('path').attr('d', arc()).attr('class','lhdi').style('opacity','0.1');
-startAngle = endAngle;
-endAngle = endAngle + (arcLength * _.filter(ddata, mhdi).length);
-arc.startAngle(startAngle).endAngle(endAngle);
-gbackground.append('path').attr('d', arc()).attr('class','mhdi').style('opacity','0.1');
-startAngle = endAngle;
-endAngle = endAngle + (arcLength * _.filter(ddata, hhdi).length);
-arc.startAngle(startAngle).endAngle(endAngle);
-gbackground.append('path').attr('d', arc()).attr('class','hhdi').style('opacity','0.1');
-startAngle = endAngle;
-endAngle = endAngle + (arcLength * _.filter(ddata, vhdi).length);
-arc.startAngle(startAngle).endAngle(endAngle);
-gbackground.append('path').attr('d', arc()).attr('class','vhdi').style('opacity','0.1');
+gbackground.selectAll('path').data(ddata).enter().append('path').attr('d', function(d, i) {
+    arc.startAngle(i * arcLength).endAngle((i * arcLength) + (arcLength));
+    return arc();
+})
+.attr('class', classifyHDI)
+.attr('data-country', function(d){return d['indicator'];})
 var c = circularPlot('rule of law', 450);
 c.draw(circular);
 c = circularPlot('regulatory quality', 400);
