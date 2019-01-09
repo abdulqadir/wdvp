@@ -71,3 +71,15 @@ line {
 #wdvp-logo img {
     height: 53px;
 }
+.radial-line-chart path {
+    fill: none;
+    stroke-width: 1.5px;
+}
+
+.radial-line-chart .healthexp{
+    stroke: #D209A5;
+}
+
+.radial-line-chart .eduexp{
+    stroke: #006FFF;
+}

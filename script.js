@@ -160,7 +160,7 @@ var circular = d3.select('#circular').attr('width','1140').attr('height','1052')
 var gbackground = circular.append('g').attr('transform','translate(570, 530)');
 var arc = d3.arc();
 var arcLength = Math.PI * 2 / ddata.length;
-arc.outerRadius(450).innerRadius(250);
+arc.outerRadius(450).innerRadius(200);
 gbackground.selectAll('path').data(ddata).enter().append('path').attr('d', function(d, i) {
     arc.startAngle(i * arcLength).endAngle((i * arcLength) + (arcLength));
     return arc();
@@ -175,3 +175,41 @@ c = circularPlot('government effectiveness', 350);
 c.draw(circular);
 c = circularPlot('political stability & absence of violence', 300);
 c.draw(circular);
+
+var radialLineChart = function(y1, y2, outerRadius, class1, class2) {
+    var plotdata = _.filter(data, function(c){return isFinite(c[y1]) && isFinite(c[y2]);})
+    var yscale = d3.scaleLinear().domain([_.min(
+            [
+                Number(_.min(plotdata, function(c){return Number(c[y1]);})[y1]),
+                Number(_.min(plotdata, function(c){return Number(c[y2]);})[y2])
+            ])
+            ,_.max(
+            [
+                Number(_.max(plotdata, function(c){return Number(c[y1]);})[y1]),
+                Number(_.max(plotdata, function(c){return Number(c[y2]);})[y2])
+            ])])
+    .range([outerRadius - 50, outerRadius]);
+    return {
+        draw: function(elem) {
+            var g = circular.append('g').attr('transform', 'translate(570, 530)').attr('class','radial-line-chart ');
+            var loop = function(y) {
+                return d3.lineRadial().curve(d3.curveCatmullRomClosed)
+                    .angle(function(d,i) {
+                        return i * arcLength + (0.53 * arcLength);
+                    })
+                    .radius(function(d,i) {
+                        if (!isFinite(d[y])) {
+                            return outerRadius-50;
+                        }
+                        var r = yscale(d[y]);
+                        return r;
+                    });
+            }
+            g.append('path').attr('d', loop(y1)(ddata)).attr('class', class1);
+            g.append('path').attr('d', loop(y2)(ddata)).attr('class', class2);
+        }
+    }
+}
+
+var r = radialLineChart('health expenditure \n% of GDP', 'education expenditure\n% of GDP', 250, 'healthexp', 'eduexp');
+r.draw(circular);
