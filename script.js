@@ -129,6 +129,9 @@ s.draw(d3.select('#s3'));
 s = plot('human development index', 'rule of law');
 s.draw(d3.select('#s4'));
 
+var htmlNode = d3.select('html').node();
+var countryInfoElem = d3.select('#countryInfo');
+
 var arc = d3.arc();
 var arcLength = Math.PI * 2 / ddata.length;
 var circular = d3.select('#circular').attr('width','1140').attr('height','1052');
@@ -142,14 +145,21 @@ gbackground.selectAll('path').data(ddata).enter().append('path').attr('d', funct
 .attr('class', function(d) { return classifyHDI(d) + ' background'; })
 .attr('data-country', function(d){return d['indicator'];})
 .style('opacity',0.1)
-.on('mouseover', function(e) {
-    var el = d3.select(this);
-    el.transition().duration(100).style('opacity','0.21');
-    d3.selectAll('.background:not([data-country="' + el.attr('data-country') + '"])').transition().duration(210).style('opacity','0.07');
+.on('mouseover', function(d) {
+    var country = d['indicator'];
+    d3.select(this).transition().duration(100).style('opacity','0.21');
+    d3.selectAll('.background:not([data-country="' + country + '"])').transition().duration(210).style('opacity','0.07');
+    var mouse = d3.mouse(htmlNode);
+    countryInfoElem.style('top', mouse[1]+'px').style('left', (mouse[0]+11)+'px').style('opacity', 0.97);
+    countryInfoElem.select('.card-title').text(country);
+})
+.on('mousemove', function(e) {
+    var mouse = d3.mouse(htmlNode);
+    countryInfoElem.style('top', mouse[1]+'px').style('left', (mouse[0]+11)+'px');
 })
 .on('mouseout', function(e) {
-    var el = d3.select(this);
     d3.selectAll('.background').transition().duration(100).style('opacity','0.1');
+    countryInfoElem.style('opacity',0);
 });
 
 function coords(angle, radius) {

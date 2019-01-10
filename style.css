@@ -99,3 +99,11 @@ line {
 .radial-line-chart .eduexp{
     stroke: #006FFF;
 }
+#countryInfo {
+    position: absolute;
+    top: 0;
+    left:0;
+    opacity: 0;
+    pointer-events: none;
+    box-shadow: 1px 1px 5px #d7d2c8;
+}
