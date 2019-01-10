@@ -201,16 +201,17 @@ c = circularPlot('rule of law', 300);
 c.draw(circular);
 
 var radialLineChart = function(y1, y2, outerRadius, class1, class2) {
-    var plotdata = _.filter(data, function(c){return isFinite(c[y1]) && isFinite(c[y2]);})
+    var validy1 = _.filter(data, function(c){return isFinite(c[y1]);});
+    var validy2 = _.filter(data, function(c){return isFinite(c[y2]);});
     var yscale = d3.scaleLinear().domain([_.min(
             [
-                Number(_.min(plotdata, function(c){return Number(c[y1]);})[y1]),
-                Number(_.min(plotdata, function(c){return Number(c[y2]);})[y2])
+                Number(_.min(validy1, function(c){return Number(c[y1]);})[y1]),
+                Number(_.min(validy2, function(c){return Number(c[y2]);})[y2])
             ])
             ,_.max(
             [
-                Number(_.max(plotdata, function(c){return Number(c[y1]);})[y1]),
-                Number(_.max(plotdata, function(c){return Number(c[y2]);})[y2])
+                Number(_.max(validy1, function(c){return Number(c[y1]);})[y1]),
+                Number(_.max(validy2, function(c){return Number(c[y2]);})[y2])
             ])])
     .range([outerRadius - 50, outerRadius]);
     return {
