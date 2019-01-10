@@ -18,15 +18,7 @@ var classifyHDI = function(d) {
     return 'nodata';
 }
 
-var svg = d3.select('#distribution').attr('width',350).attr('height', 321);
 var ddata = _.sortBy(_.filter(data, function(c){return isFinite(c['human development index']);}), function(c){return Number(c['human development index']);});
-var dlabel = svg.append('text').attr('x',5).attr('y', 300).attr('width',53).attr('height',27);
-svg.selectAll('rect').data(ddata.concat(_.filter(data, function(c){return !isFinite(c['human development index'])}))).enter().append('rect')
-    .attr('class', classifyHDI)
-    .attr('x',function(d,i){return (i%15)*21+5;}).attr('y', function(d,i){return Math.floor(i/15)*21+5;}).attr('width',10).attr('height',10).attr('rx', 3).attr('ry', 3)
-    .on('mouseover', function(d) {
-        dlabel.text(d['indicator'] + ' ' + d['human development index']);
-    });
 
 var dumbbell = function(x, y1, y2) {
     var plotdata = _.filter(data, function(c){return isFinite(c[x]) && isFinite(c[y1]) && isFinite(c[y2]);})
@@ -131,12 +123,13 @@ s.draw(d3.select('#s4'));
 
 var htmlNode = d3.select('html').node();
 var countryInfoElem = d3.select('#countryInfo');
+var centerTransform = 'translate(570, 530)';
 
 var arc = d3.arc();
 var arcLength = Math.PI * 2 / ddata.length;
 var circular = d3.select('#circular').attr('width','1140').attr('height','1052');
 
-var gbackground = circular.append('g').attr('transform','translate(570, 530)');
+var gbackground = circular.append('g').attr('transform',centerTransform);
 arc.outerRadius(450).innerRadius(200);
 gbackground.selectAll('path').data(ddata).enter().append('path').attr('d', function(d, i) {
     arc.startAngle(i * arcLength).endAngle((i * arcLength) + (arcLength));
@@ -162,6 +155,14 @@ gbackground.selectAll('path').data(ddata).enter().append('path').attr('d', funct
     countryInfoElem.style('opacity',0);
 });
 
+var ginner = circular.append('g').attr('transform',centerTransform);
+arc.outerRadius(190).innerRadius(180);
+ginner.selectAll('path').data(ddata).enter().append('path').attr('d', function(d, i) {
+    arc.startAngle(i * arcLength).endAngle((i * arcLength) + (arcLength));
+    return arc();
+})
+.attr('class', classifyHDI);
+
 function coords(angle, radius) {
     var y = Math.sin(angle) * radius;
     var x = Math.cos(angle) * radius;
@@ -173,7 +174,7 @@ var circularPlot = function(y, outerRadius) {
     var colorscale =  d3.scaleQuantize().domain([-2.5, 2.5]).range(['#FF35AA','#FF3535','#FF5300','#FFB505','#FFE526','#6AE71E','#53ECDA','#07BDE7','#0571D4','#2D1FCF']);
     return {
         draw: function(elem) {
-            var g = elem.append('g').attr('transform','translate(570, 530)').attr('class', 'circular-plot');
+            var g = elem.append('g').attr('transform',centerTransform).attr('class', 'circular-plot');
             g.append('circle').attr('x', 0).attr('y', 0).attr('r', outerRadius - 50);
             var cs = coords(5.2 * Math.PI/4, outerRadius - 45);
             var ce = coords(3 * Math.PI/2, outerRadius - 45);
@@ -226,7 +227,7 @@ var radialLineChart = function(y1, y2, outerRadius, class1, class2) {
     .range([outerRadius - 50, outerRadius]);
     return {
         draw: function(elem) {
-            var g = circular.append('g').attr('transform', 'translate(570, 530)').attr('class','radial-line-chart ');
+            var g = circular.append('g').attr('transform', centerTransform).attr('class','radial-line-chart ');
             var loop = function(y) {
                 return d3.lineRadial().curve(d3.curveCatmullRomClosed)
                     .angle(function(d,i) {

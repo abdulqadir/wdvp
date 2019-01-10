@@ -37,8 +37,8 @@ a {
     font-weight: 500;
 }
 .vhdi {
-    fill: #002153;
-    color: #002153;
+    fill: #0053D0;
+    color: #0053D0;
     font-weight: 500;
 }
 .nodata {
@@ -48,7 +48,6 @@ a {
 path.lhdi, path.mhdi, path.hhdi, path.vhdi {
     stroke: #FFE;
     stroke-width: 1px;
-    opacity: 0.1;
 }
 line {
     stroke-width: 1px;
