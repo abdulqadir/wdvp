@@ -129,12 +129,35 @@ s.draw(d3.select('#s3'));
 s = plot('human development index', 'rule of law');
 s.draw(d3.select('#s4'));
 
+var circular = d3.select('#circular').attr('width','1140').attr('height','1052');
+var gbackground = circular.append('g').attr('transform','translate(570, 530)');
+var arc = d3.arc();
+var arcLength = Math.PI * 2 / ddata.length;
+arc.outerRadius(450).innerRadius(200);
+gbackground.selectAll('path').data(ddata).enter().append('path').attr('d', function(d, i) {
+    arc.startAngle(i * arcLength).endAngle((i * arcLength) + (arcLength));
+    return arc();
+})
+.attr('class', classifyHDI)
+.attr('data-country', function(d){return d['indicator'];});
+
+function coords(angle, radius) {
+    var y = Math.sin(angle) * radius;
+    var x = Math.cos(angle) * radius;
+    return [x, y];
+}
+
 var circularPlot = function(y, outerRadius) {
     var ydomain = [-2.5, 2.5];
     var colorscale =  d3.scaleQuantize().domain([-2.5, 2.5]).range(['#FF35AA','#FF3535','#FF5300','#FFB505','#FFE526','#6AE71E','#53ECDA','#07BDE7','#0571D4','#2D1FCF']);
     return {
         draw: function(elem) {
-            var g = elem.append('g').attr('transform','translate(570, 530)');
+            var g = elem.append('g').attr('transform','translate(570, 530)').attr('class', 'circular-plot');
+            g.append('circle').attr('x', 0).attr('y', 0).attr('r', outerRadius - 50);
+            var cs = coords(5.2 * Math.PI/4, outerRadius - 45);
+            var ce = coords(3 * Math.PI/2, outerRadius - 45);
+            g.append('path').attr('d', 'M' + cs + 'A' + (outerRadius-45) +',' + (outerRadius-45) + ' 0 0 1 ' + ce)
+                .attr('fill','none').attr('stroke', 'none').attr('id', y);
             var stops = [2.0, 1.5, 1.0, 0.5, 0, 0, -0.5, -1.0, -1.5, -2.0];
             arc.cornerRadius(2);
             for (var s=0; s<stops.length; s++) {
@@ -153,27 +176,17 @@ var circularPlot = function(y, outerRadius) {
                 });
                 outerRadius = outerRadius - 5;
             }
+            g.append('text').append('textPath').attr('href','#' + y).text(y);
         }
     }
 }
-var circular = d3.select('#circular').attr('width','1140').attr('height','1052');
-var gbackground = circular.append('g').attr('transform','translate(570, 530)');
-var arc = d3.arc();
-var arcLength = Math.PI * 2 / ddata.length;
-arc.outerRadius(450).innerRadius(200);
-gbackground.selectAll('path').data(ddata).enter().append('path').attr('d', function(d, i) {
-    arc.startAngle(i * arcLength).endAngle((i * arcLength) + (arcLength));
-    return arc();
-})
-.attr('class', classifyHDI)
-.attr('data-country', function(d){return d['indicator'];})
-var c = circularPlot('rule of law', 450);
+var c = circularPlot('political stability & absence of violence', 450);
 c.draw(circular);
-c = circularPlot('regulatory quality', 400);
+c = circularPlot('government effectiveness', 400);
 c.draw(circular);
-c = circularPlot('government effectiveness', 350);
+c = circularPlot('regulatory quality', 350);
 c.draw(circular);
-c = circularPlot('political stability & absence of violence', 300);
+c = circularPlot('rule of law', 300);
 c.draw(circular);
 
 var radialLineChart = function(y1, y2, outerRadius, class1, class2) {

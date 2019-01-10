@@ -71,6 +71,20 @@ line {
 #wdvp-logo img {
     height: 53px;
 }
+
+.circular-plot circle {
+    fill: none;
+    stroke-width: 1px;
+    stroke: #BBB;
+    stroke-dasharray: 2 2;
+}
+
+.circular-plot text {
+    fill: #535372;
+    text-transform: capitalize;
+    font-size: 0.8em;
+}
+
 .radial-line-chart path {
     fill: none;
     stroke-width: 1.5px;
