@@ -214,20 +214,22 @@ c.draw(circular);
 var radialLineChart = function(y1, y2, outerRadius, class1, class2) {
     var validy1 = _.filter(data, function(c){return isFinite(c[y1]);});
     var validy2 = _.filter(data, function(c){return isFinite(c[y2]);});
-    var yscale = d3.scaleLinear().domain([_.min(
-            [
-                Number(_.min(validy1, function(c){return Number(c[y1]);})[y1]),
-                Number(_.min(validy2, function(c){return Number(c[y2]);})[y2])
-            ])
-            ,_.max(
-            [
-                Number(_.max(validy1, function(c){return Number(c[y1]);})[y1]),
-                Number(_.max(validy2, function(c){return Number(c[y2]);})[y2])
-            ])])
-    .range([outerRadius - 50, outerRadius]);
+    var yscale = d3.scaleLinear().domain([0,_.max([
+        Number(_.max(validy1, function(c){return Number(c[y1]);})[y1]),
+        Number(_.max(validy2, function(c){return Number(c[y2]);})[y2])
+    ])])
+    .range([outerRadius - 50, outerRadius])
+    .nice();
+    var yticks = yscale.ticks(5);
     return {
         draw: function(elem) {
             var g = circular.append('g').attr('transform', centerTransform).attr('class','radial-line-chart ');
+            for (var i=1; i<yticks.length; i++) {
+                var t = yticks[i];
+                g.append('circle').attr('x', 0).attr('y', 0).attr('r', yscale(t));
+                var tc = coords(6.52*Math.PI/4, yscale(t-2));
+                g.append('text').attr('x', tc[0]).attr('y', tc[1]).text(t + '%');
+            }
             var loop = function(y) {
                 return d3.lineRadial().curve(d3.curveCatmullRomClosed)
                     .angle(function(d,i) {

@@ -90,7 +90,17 @@ line {
     fill: none;
     stroke-width: 1.5px;
 }
-
+.radial-line-chart circle {
+    fill: none;
+    stroke: #533C0A;
+    stroke-width: 1px;
+    stroke-dasharray: 5 5;
+    stroke-opacity: 0.23;
+}
+.radial-line-chart text {
+    fill: #533C0A;
+    font-size: 0.53em;
+}
 .radial-line-chart .healthexp{
     stroke: #D209A5;
 }
