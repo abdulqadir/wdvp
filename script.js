@@ -184,4 +184,5 @@ var radialLineChart = function(y1, y2, outerRadius, class1, class2) {
 var r = radialLineChart('health', 'education', 250, 'healthexp', 'eduexp');
 r.draw(circular);
 
-var ginfo = circular.select('.info').attr('transform', centerTransform);
+circular.select('.info').attr('transform', centerTransform);
+circular.select('.annotations').attr('transform', centerTransform);

@@ -121,3 +121,16 @@ path.lhdi, path.mhdi, path.hhdi, path.vhdi {
     font-size: 0.7rem;
     box-shadow: 1px 1px 5px #d7d2c8;
 }
+.annotations text{
+    font-size: 0.7rem;
+    font-weight: 200;
+}
+.annotations .title {
+    font-size: 0.8rem;
+    font-weight: 400;
+}
+.annotations path {
+    stroke: #DDD;
+    fill: none;
+    stroke-width: 1px;
+}
