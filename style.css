@@ -108,6 +108,9 @@ line {
 .radial-line-chart .eduexp{
     stroke: #006FFF;
 }
+.inner text {
+    font-size: 0.7rem;
+}
 #countryInfo {
     position: absolute;
     top: 0;

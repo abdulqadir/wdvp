@@ -153,7 +153,13 @@ gbackground.selectAll('path').data(data).enter().append('path').attr('d', functi
     countryInfoElem.style('opacity',0);
 });
 
-var ginner = circular.append('g').attr('transform',centerTransform);
+function coords(angle, radius) {
+    var y = Math.sin(angle) * radius;
+    var x = Math.cos(angle) * radius;
+    return [x, y];
+}
+
+var ginner = circular.append('g').attr('transform',centerTransform).attr('class','inner');
 arc.outerRadius(190).innerRadius(180);
 ginner.selectAll('path').data(data).enter().append('path').attr('d', function(d, i) {
     arc.startAngle(i * arcLength).endAngle((i * arcLength) + (arcLength));
@@ -161,11 +167,18 @@ ginner.selectAll('path').data(data).enter().append('path').attr('d', function(d,
 })
 .attr('class', classifyHDI);
 
-function coords(angle, radius) {
-    var y = Math.sin(angle) * radius;
-    var x = Math.cos(angle) * radius;
-    return [x, y];
-}
+ginner.append('path').attr('d', 'M' + coords(6.2 * Math.PI/4, 169) + 'A' + '169,169 0 0 1 ' + coords(1.85*Math.PI, 169))
+    .attr('fill','none').attr('stroke', 'none').attr('id', 'LHDI');
+ginner.append('text').append('textPath').attr('href','#LHDI').text(_.filter(data,lhdi).length + ' countries with Low HDI').attr('class','lhdi');
+ginner.append('path').attr('d', 'M' + coords(1.97 * Math.PI, 169) + 'A' + '169,169 0 0 1 ' + coords(0.72*Math.PI/2, 169))
+    .attr('fill','none').attr('stroke', 'none').attr('id', 'MHDI');
+ginner.append('text').append('textPath').attr('href','#MHDI').text(_.filter(data,mhdi).length + ' countries with Medium HDI').attr('class','mhdi');
+ginner.append('path').attr('d', 'M' + coords(Math.PI/2, 169) + 'A' + '169,169 0 0 1 ' + coords(0.85*Math.PI, 169))
+    .attr('fill','none').attr('stroke', 'none').attr('id', 'HHDI');
+ginner.append('text').append('textPath').attr('href','#HHDI').text(_.filter(data,hhdi).length + ' countries with High HDI').attr('class','hhdi');
+ginner.append('path').attr('d', 'M' + coords(Math.PI, 169) + 'A' + '169,169 0 0 1 ' + coords(2.9 * Math.PI/2, 169))
+    .attr('fill','none').attr('stroke', 'none').attr('id', 'VHDI');
+ginner.append('text').append('textPath').attr('href','#VHDI').text(_.filter(data,vhdi).length + ' countries with Very high HDI').attr('class','vhdi');
 
 var circularPlot = function(y, outerRadius) {
     var ydomain = [-2.5, 2.5];
