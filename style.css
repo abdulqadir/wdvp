@@ -101,21 +101,33 @@ line {
     fill: #533C0A;
     font-size: 0.53em;
 }
-.radial-line-chart .healthexp{
+.healthexp{
+    color: #D209A5;
     stroke: #D209A5;
 }
 
-.radial-line-chart .eduexp{
+.eduexp{
+    color: #006FFF;
     stroke: #006FFF;
 }
 .inner text {
     font-size: 0.7rem;
+}
+.info text {
+    text-anchor: middle;
+    font-size: 0.7rem;
+}
+.info .title {
+    font-size: 1rem;
 }
 #countryInfo {
     position: absolute;
     top: 0;
     left:0;
     opacity: 0;
+    background-color: #FFF;
+    padding: 3px;
     pointer-events: none;
+    font-size: 0.7rem;
     box-shadow: 1px 1px 5px #d7d2c8;
 }

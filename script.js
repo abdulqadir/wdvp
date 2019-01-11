@@ -129,6 +129,28 @@ var arc = d3.arc();
 var arcLength = Math.PI * 2 / data.length;
 var circular = d3.select('#circular').attr('width','1140').attr('height','1052');
 
+function fillCountryInfo(d) {
+    d3.select('#countryInfoName').text(d['country']);
+    countryInfoElem.select('#countryName').text(d['country']);
+    d3.select('#countryInfoHDI').text(function() {
+        var text;
+        if (lhdi(d)) {
+            text = 'Low';
+        }
+        else if (mhdi(d)) {
+            text = 'Medium';
+        }
+        else if (hhdi(d)) {
+            text = 'High';
+        }
+        else if (vhdi(d)) {
+            text = 'Very high';
+        }
+        text += ' HDI - ';
+        return text + d['hdi'];
+    }).attr('class', classifyHDI(d));
+}
+
 var gbackground = circular.append('g').attr('transform',centerTransform);
 arc.outerRadius(450).innerRadius(200);
 gbackground.selectAll('path').data(data).enter().append('path').attr('d', function(d, i) {
@@ -142,6 +164,7 @@ gbackground.selectAll('path').data(data).enter().append('path').attr('d', functi
     d3.select(this).transition().duration(100).style('opacity','0.21');
     d3.selectAll('.background:not([data-country="' + d['country'] + '"])').transition().duration(210).style('opacity','0.07');
     var mouse = d3.mouse(htmlNode);
+    fillCountryInfo(d);
     countryInfoElem.style('top', mouse[1]+'px').style('left', (mouse[0]+11)+'px').style('opacity', 0.97);
 })
 .on('mousemove', function(e) {
@@ -262,3 +285,5 @@ var radialLineChart = function(y1, y2, outerRadius, class1, class2) {
 
 var r = radialLineChart('health', 'education', 250, 'healthexp', 'eduexp');
 r.draw(circular);
+
+var ginfo = circular.select('.info').attr('transform', centerTransform);
