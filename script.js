@@ -106,6 +106,8 @@ gbackground.selectAll('path').data(data).enter().append('path').attr('d', functi
 .on('mouseover', function(d) {
     d3.select(this).transition().duration(100).style('opacity','0.21');
     d3.selectAll('.background:not([data-country="' + d['country'] + '"])').transition().duration(210).style('opacity','0.07');
+    d3.select('#countryInfo').style('opacity',1);
+    d3.select('#tip').style('opacity',0);
     var mouse = d3.mouse(htmlNode);
     fillCountryInfo(d);
     countryInfoElem.style('top', mouse[1]+'px').style('left', (mouse[0]+11)+'px').style('opacity', 0.97);
@@ -116,6 +118,8 @@ gbackground.selectAll('path').data(data).enter().append('path').attr('d', functi
     countryInfoElem.style('top', mouse[1]+'px').style('left', (mouse[0]+11)+'px');
 })
 .on('mouseout', function(d) {
+    d3.select('#countryInfo').style('opacity',0);
+    d3.select('#tip').style('opacity',1);
     d3.selectAll('.background').transition().duration(100).style('opacity','0.1');
     countryInfoElem.style('opacity',0);
 });

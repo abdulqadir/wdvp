@@ -60,7 +60,7 @@ path.lhdi, path.mhdi, path.hhdi, path.vhdi {
 #wdvp-logo img {
     height: 53px;
 }
-.circular-plot {
+.circular-plot, .radial-line-chart {
     pointer-events: none;
 }
 .circular-plot circle {
@@ -75,7 +75,6 @@ path.lhdi, path.mhdi, path.hhdi, path.vhdi {
     text-transform: capitalize;
     font-size: 0.8em;
 }
-
 .radial-line-chart path {
     fill: none;
     stroke-width: 1.5px;
