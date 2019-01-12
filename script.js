@@ -48,6 +48,15 @@ function fillCountryInfo(d) {
         text += ' HDI - ';
         return text + d['hdi'];
     }).attr('class', classifyHDI(d));
+    if (d['similar'].length > 0) {
+        d3.select('#similar1').text(d['similar'][0]?d['similar'][0]:'');
+        d3.select('#similar2').text(d['similar'][1]?d['similar'][1]:'');
+        d3.select('#similar3').text(d['similar'][2]?d['similar'][2]:'');
+        d3.select('#similarCountries').style('opacity',1);
+    }
+    else {
+        d3.select('#similarCountries').style('opacity',0);
+    }
     var mouse = d3.mouse(circular.node());
     mouse[0] -= centerX;
     mouse[1] -= centerY;

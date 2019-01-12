@@ -139,3 +139,11 @@ path#LHDI, path#MHDI, path#HHDI, path#VHDI {
     fill: none;
     stroke-width: 1px;
 }
+#similarCountries text:nth-child(1) {
+    font-weight: 300;
+    font-style: italic;
+    fill: #715321;
+}
+#similarCountries text:nth-child(n+2) {
+    font-weight: 500;
+}
