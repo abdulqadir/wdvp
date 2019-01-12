@@ -20,8 +20,9 @@ var classifyHDI = function(d) {
 
 var data = _.sortBy(data, function(c){return c['hdi'];});
 var htmlNode = d3.select('html').node();
-var countryInfoElem = d3.select('#countryInfo');
-var centerTransform = 'translate(570, 530)';
+var countryInfoElem = d3.select('#countryInfoPopover');
+var centerX = 570, centerY = 530;
+var centerTransform = 'translate(' + centerX + ',' + centerY + ')';
 
 var arc = d3.arc();
 var arcLength = Math.PI * 2 / data.length;
@@ -47,6 +48,50 @@ function fillCountryInfo(d) {
         text += ' HDI - ';
         return text + d['hdi'];
     }).attr('class', classifyHDI(d));
+    var mouse = d3.mouse(circular.node());
+    mouse[0] -= centerX;
+    mouse[1] -= centerY;
+    var radius = Math.sqrt(Math.pow(mouse[0],2) + Math.pow(mouse[1],2));
+    var statistic;
+    var score;
+    if (radius > 250) {
+        countryInfoElem.select('#expenditure').style('display','none');
+        if (radius > 400) {
+            statistic = 'Political Stability & Absence Of Violence';
+            score = Math.round(d['political stability & absence of violence']*100)/100;
+        }
+        else if (radius > 350) {
+            statistic = 'Government Effectiveness';
+            score = Math.round(d['government effectiveness']*100)/100;
+        }
+        else if (radius > 300) {
+            statistic = 'Regulatory Quality';
+            score = Math.round(d['regulatory quality']*100)/100;
+        }
+        else {
+            statistic = 'Rule of Law';
+            score = Math.round(d['rule of law']*100)/100;
+        }
+    }
+    else {
+        countryInfoElem.select('#expenditure').style('display','block');
+        var p = 'N/A';
+        if (d['health'] !== null) {
+            p = Number(d['health']);
+            p = Math.round(p*100)/100;
+            p += '%';
+        }
+        d3.select('#healthExpenditure').text(p);
+        p = 'N/A';
+        if (d['education'] !== null) {
+            p = Number(d['education'])
+            p = Math.round(p*100)/100;
+            p += '%';
+        }
+        d3.select('#educationExpenditure').text(p);
+    }
+    countryInfoElem.select('#statistic').text(statistic);
+    countryInfoElem.select('#score').text(score);
 }
 
 var gbackground = circular.append('g').attr('transform',centerTransform);
@@ -65,11 +110,12 @@ gbackground.selectAll('path').data(data).enter().append('path').attr('d', functi
     fillCountryInfo(d);
     countryInfoElem.style('top', mouse[1]+'px').style('left', (mouse[0]+11)+'px').style('opacity', 0.97);
 })
-.on('mousemove', function(e) {
+.on('mousemove', function(d) {
     var mouse = d3.mouse(htmlNode);
+    fillCountryInfo(d);
     countryInfoElem.style('top', mouse[1]+'px').style('left', (mouse[0]+11)+'px');
 })
-.on('mouseout', function(e) {
+.on('mouseout', function(d) {
     d3.selectAll('.background').transition().duration(100).style('opacity','0.1');
     countryInfoElem.style('opacity',0);
 });
@@ -88,17 +134,13 @@ ginner.selectAll('path').data(data).enter().append('path').attr('d', function(d,
 })
 .attr('class', classifyHDI);
 
-ginner.append('path').attr('d', 'M' + coords(6.2 * Math.PI/4, 169) + 'A' + '169,169 0 0 1 ' + coords(1.85*Math.PI, 169))
-    .attr('fill','none').attr('stroke', 'none').attr('id', 'LHDI');
+ginner.append('path').attr('d', 'M' + coords(6.2 * Math.PI/4, 169) + 'A' + '169,169 0 0 1 ' + coords(1.85*Math.PI, 169)).attr('id', 'LHDI');
 ginner.append('text').append('textPath').attr('href','#LHDI').text(_.filter(data,lhdi).length + ' countries with Low HDI').attr('class','lhdi');
-ginner.append('path').attr('d', 'M' + coords(1.97 * Math.PI, 169) + 'A' + '169,169 0 0 1 ' + coords(0.72*Math.PI/2, 169))
-    .attr('fill','none').attr('stroke', 'none').attr('id', 'MHDI');
+ginner.append('path').attr('d', 'M' + coords(1.97 * Math.PI, 169) + 'A' + '169,169 0 0 1 ' + coords(0.72*Math.PI/2, 169)).attr('id', 'MHDI');
 ginner.append('text').append('textPath').attr('href','#MHDI').text(_.filter(data,mhdi).length + ' countries with Medium HDI').attr('class','mhdi');
-ginner.append('path').attr('d', 'M' + coords(Math.PI/2, 169) + 'A' + '169,169 0 0 1 ' + coords(0.85*Math.PI, 169))
-    .attr('fill','none').attr('stroke', 'none').attr('id', 'HHDI');
+ginner.append('path').attr('d', 'M' + coords(Math.PI/2, 169) + 'A' + '169,169 0 0 1 ' + coords(0.85*Math.PI, 169)).attr('id', 'HHDI');
 ginner.append('text').append('textPath').attr('href','#HHDI').text(_.filter(data,hhdi).length + ' countries with High HDI').attr('class','hhdi');
-ginner.append('path').attr('d', 'M' + coords(Math.PI, 169) + 'A' + '169,169 0 0 1 ' + coords(2.9 * Math.PI/2, 169))
-    .attr('fill','none').attr('stroke', 'none').attr('id', 'VHDI');
+ginner.append('path').attr('d', 'M' + coords(Math.PI, 169) + 'A' + '169,169 0 0 1 ' + coords(2.9 * Math.PI/2, 169)).attr('id', 'VHDI');
 ginner.append('text').append('textPath').attr('href','#VHDI').text(_.filter(data,vhdi).length + ' countries with Very high HDI').attr('class','vhdi');
 
 var circularPlot = function(y, outerRadius) {

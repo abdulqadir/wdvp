@@ -100,6 +100,10 @@ path.lhdi, path.mhdi, path.hhdi, path.vhdi {
     color: #006FFF;
     stroke: #006FFF;
 }
+path#LHDI, path#MHDI, path#HHDI, path#VHDI {
+    fill: none;
+    stroke: none;
+}
 .inner text {
     font-size: 0.7rem;
 }
@@ -110,16 +114,20 @@ path.lhdi, path.mhdi, path.hhdi, path.vhdi {
 .info .title {
     font-size: 1rem;
 }
-#countryInfo {
+#countryInfoPopover {
     position: absolute;
     top: 0;
     left:0;
     opacity: 0;
     background-color: #FFF;
     padding: 3px;
+    width: 210px;
     pointer-events: none;
     font-size: 0.7rem;
     box-shadow: 1px 1px 5px #d7d2c8;
+}
+#countryName {
+    font-weight: 500;
 }
 .annotations text{
     font-size: 0.7rem;

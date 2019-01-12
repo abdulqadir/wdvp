@@ -86,8 +86,25 @@
             <br>
             </div>
         </section>
-        <div id="countryInfo">
+        <div id="countryInfoPopover">
             <div id="countryName"></div>
+            <div class="row mt-1">
+                <div id="statistic" class="col-9"></div>
+                <div id="score" class="col-3"></div>
+            </div>
+            <div id="expenditure">
+                <div><i>Spending as % of GDP</i></div>
+                <div class="row">
+                    <div class="col-6">
+                        <div>Health</div>
+                        <div id="healthExpenditure" class="healthexp"></div>
+                    </div>
+                    <div class="col-6">
+                        <div>Education</div>
+                        <div id="educationExpenditure" class="eduexp"></div>
+                    </div>
+                </div>
+            </div>
         </div>
     </body>
     <script src="script.js"></script>
