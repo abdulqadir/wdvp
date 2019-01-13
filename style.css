@@ -161,7 +161,7 @@ path#LHDI, path#MHDI, path#HHDI, path#VHDI {
     position: absolute;
     background-color: #FFF;
     padding: 23px;
-    width: 600px;
+    width: 599px;
     height: 553px;
     font-size: 0.7rem;
     box-shadow: 1px 1px 5px #d7d2c8;
@@ -176,5 +176,6 @@ path#LHDI, path#MHDI, path#HHDI, path#VHDI {
     text-align: right;
 }
 #countryComparison .row {
-    padding: 0.53rem;
+    padding-top: 0.53rem;
+    padding-bottom: 0.53rem;
 }

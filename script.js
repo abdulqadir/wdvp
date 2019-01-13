@@ -178,7 +178,7 @@ function compare(c1, c2) {
     showScore(d3.select('#compareRLLev1'), c1['rule of law']);
     d3.select('#compareRL2').text(getScore(c2['rule of law']));
     showScore(d3.select('#compareRLLev2'), c2['rule of law']);
-    d3.select('#countryComparison').style('top', (visNode.offsetTop+270)+'px').transition().duration(153).style('left', (visNode.offsetLeft + 286) + 'px');
+    d3.select('#countryComparison').style('top', (visNode.offsetTop+253)+'px').transition().duration(153).style('left', (visNode.offsetLeft + 286) + 'px');
 }
 function dismiss() {
     d3.select('#countryComparison').transition().duration(253).style('left', '-610px');
