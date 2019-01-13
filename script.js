@@ -108,18 +108,18 @@ function positionPopover() {
     var cmouse = d3.mouse(circular.node());
     cmouse[0] -= centerX;
     cmouse[1] -= centerY;
-    countryInfoElem.style('opacity', 0.97);
+    countryInfoElem.style('opacity', 0.8);
     if (cmouse[1] > 0){
-        countryInfoElem.style('top', mouse[1]+'px');
+        countryInfoElem.style('top', (mouse[1]+5)+'px');
     }
     else {
-        countryInfoElem.style('top', (mouse[1]-countryInfoElem.node().getBoundingClientRect()['height'])+'px');
+        countryInfoElem.style('top', (mouse[1]-countryInfoElem.node().getBoundingClientRect()['height']-5)+'px');
     }
     if (cmouse[0] > 0) {
-        countryInfoElem.style('left', (mouse[0])+'px');
+        countryInfoElem.style('left', (mouse[0]+5)+'px');
     }
     else {
-        countryInfoElem.style('left', (mouse[0]-countryInfoElem.node().getBoundingClientRect()['width'])+'px');
+        countryInfoElem.style('left', (mouse[0]-countryInfoElem.node().getBoundingClientRect()['width']-5)+'px');
     }
 }
 
@@ -133,8 +133,8 @@ gbackground.selectAll('path').data(data).enter().append('path').attr('d', functi
 .attr('data-country', function(d){return d['country'];})
 .style('opacity',0.1)
 .on('mouseover', function(d) {
-    d3.select(this).transition().duration(100).style('opacity','0.21');
-    d3.selectAll('.background:not([data-country="' + d['country'] + '"])').transition().duration(210).style('opacity','0.07');
+    d3.select(this).style('opacity','0.21');
+    d3.selectAll('.background:not([data-country="' + d['country'] + '"])').style('opacity','0.07');
     d3.select('#countryInfo').style('opacity',1);
     d3.select('#tip').style('opacity',0);
     fillCountryInfo(d);
@@ -148,7 +148,7 @@ gbackground.selectAll('path').data(data).enter().append('path').attr('d', functi
 .on('mouseout', function(d) {
     d3.select('#countryInfo').style('opacity',0);
     d3.select('#tip').style('opacity',1);
-    d3.selectAll('.background').transition().duration(100).style('opacity','0.1');
+    d3.selectAll('.background').style('opacity','0.1');
     countryInfoElem.style('opacity',0);
 });
 
