@@ -125,6 +125,26 @@ var visNode = d3.select('#visualization').node();
 function getScore(x) {
     return Math.round(x*100)/100;
 }
+function showScore(elem, score) {
+    elem.select('svg').remove();
+    var svg = elem.append('svg').attr('height',25).attr('width',25);
+    var color = colorscale(score);
+    var abs = Math.abs(score);
+    if (abs > 2.0) {
+        svg.append('rect').attr('y',0);
+    }
+    if (abs > 1.5) {
+        svg.append('rect').attr('y',5);
+    }
+    if (abs > 1.0) {
+        svg.append('rect').attr('y',10);
+    }
+    if (abs > 0.5) {
+        svg.append('rect').attr('y',15);
+    }
+    svg.append('rect').attr('y',20);
+    svg.selectAll('rect').attr('x',0).attr('height', 3).attr('width', 10).attr('rx',2).attr('ry',2).attr('fill', color);
+}
 var selected = '';
 function deselectAll() {
     selected = '';
@@ -143,13 +163,21 @@ function compare(c1, c2) {
     d3.select('#compareEducation1').text(getExpenditure('education',c1));
     d3.select('#compareEducation2').text(getExpenditure('education',c2));
     d3.select('#comparePS1').text(getScore(c1['political stability & absence of violence']));
+    showScore(d3.select('#comparePSLev1'), c1['political stability & absence of violence']);
     d3.select('#comparePS2').text(getScore(c2['political stability & absence of violence']));
+    showScore(d3.select('#comparePSLev2'), c2['political stability & absence of violence']);
     d3.select('#compareGE1').text(getScore(c1['government effectiveness']));
+    showScore(d3.select('#compareGELev1'), c1['government effectiveness']);
     d3.select('#compareGE2').text(getScore(c2['government effectiveness']));
+    showScore(d3.select('#compareGELev2'), c2['government effectiveness']);
     d3.select('#compareRQ1').text(getScore(c1['regulatory quality']));
+    showScore(d3.select('#compareRQLev1'), c1['regulatory quality']);
     d3.select('#compareRQ2').text(getScore(c2['regulatory quality']));
+    showScore(d3.select('#compareRQLev2'), c2['regulatory quality']);
     d3.select('#compareRL1').text(getScore(c1['rule of law']));
+    showScore(d3.select('#compareRLLev1'), c1['rule of law']);
     d3.select('#compareRL2').text(getScore(c2['rule of law']));
+    showScore(d3.select('#compareRLLev2'), c2['rule of law']);
     d3.select('#countryComparison').style('top', (visNode.offsetTop+270)+'px').transition().duration(153).style('left', (visNode.offsetLeft + 286) + 'px');
 }
 function dismiss() {
