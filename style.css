@@ -11,8 +11,9 @@ body {
 .title {
     font-family: 'Playfair Display', serif;
     text-shadow: 2px 2px 1px #d7d2c8;
+    font-size: 1rem;
 }
-h1 {
+h1.title {
     font-size: 2.1rem;
 }
 a {
@@ -51,7 +52,7 @@ path.lhdi, path.mhdi, path.hhdi, path.vhdi {
 }
 .footer {
     text-align: center;
-    font-size: 0.7em;
+    font-size: 0.8em;
 }
 #wdvp-logo {
     height: 53px;
@@ -75,7 +76,7 @@ path.lhdi, path.mhdi, path.hhdi, path.vhdi {
     text-transform: capitalize;
     font-size: 0.8em;
 }
-.radial-line-chart path {
+.radial-line-chart path, #legend path {
     fill: none;
     stroke-width: 1.5px;
 }
@@ -146,4 +147,10 @@ path#LHDI, path#MHDI, path#HHDI, path#VHDI {
 }
 #similarCountries text:nth-child(n+2) {
     font-weight: 500;
+}
+#legend text {
+    font-size: 0.6rem;
+}
+.footnote {
+    font-size: 0.8rem;
 }

@@ -82,19 +82,113 @@
                 </svg>
             </div>
         </section>
-        <section class="footer pb-5">
+        <section class="footnote">
             <div class="container">
-            <div id="wdvp-logo" class="mx-auto"><img src="wdvp.png"/></div>
-            <div class="mx-auto pt-5">SOURCES</div>
-            <br>
-            <a href="http://hdr.undp.org/en/data#">http://hdr.undp.org/en/data#</a>
-            <br>
-            <a href="http://apps.who.int/nha/database">http://apps.who.int/nha/database</a>
-            <br>
-            <a href="http://data.uis.unesco.org/?queryid=181">http://data.uis.unesco.org/?queryid=181</a>
-            <br>
-            <a href="http://info.worldbank.org/governance/wgi/#home">http://info.worldbank.org/governance/wgi/#home</a>
-            <br>
+                <div class="row">
+                <div class="col-12 col-lg-6">
+                    <div class="title">Interpreting the visualization</div>
+                    <div class="mt-1">
+                    The circular visualization has four outer discs representing four governance indicators, and an inner disc showing the spending on health as well as education as a percentage of the country's GDP.
+                    </div>
+                    <div class="py-4 ml-3" style="width:430px">
+                        <svg id="legend">
+                            <g id="good">
+                                <g id="lg5">
+                                <rect y="0"  x="10"></rect>
+                                <rect y="5"  x="10"></rect>
+                                <rect y="10" x="10"></rect>
+                                <rect y="15" x="10"></rect>
+                                <rect y="20" x="10"></rect>
+                                </g>
+                                <g id="lg4">
+                                <rect y="5"  x="25"></rect>
+                                <rect y="10" x="25"></rect>
+                                <rect y="15" x="25"></rect>
+                                <rect y="20" x="25"></rect>
+                                </g>
+                                <g id="lg3">
+                                <rect y="10" x="40"></rect>
+                                <rect y="15" x="40"></rect>
+                                <rect y="20" x="40"></rect>
+                                </g>
+                                <g id="lg2">
+                                <rect y="15" x="55"></rect>
+                                <rect y="20" x="55"></rect>
+                                </g>
+                                <g id="lg1">
+                                <rect y="20" x="70"></rect>
+                                </g>
+                                <text x="2"  y="40">Best</text>
+                                <text x="60" y="40">Good</text>
+                                <text x="3" y="50">Good governance</text>
+                            </g>
+                            <g id="bad">
+                                <g id="lb1">
+                                <rect y="20" x="110"></rect>
+                                </g>
+                                <g id="lb2">
+                                <rect y="15" x="125"></rect>
+                                <rect y="20" x="125"></rect>
+                                </g>
+                                <g id="lb3">
+                                <rect y="10" x="140"></rect>
+                                <rect y="15" x="140"></rect>
+                                <rect y="20" x="140"></rect>
+                                </g>
+                                <g id="lb4">
+                                <rect y="5"  x="155"></rect>
+                                <rect y="10" x="155"></rect>
+                                <rect y="15" x="155"></rect>
+                                <rect y="20" x="155"></rect>
+                                </g>
+                                <g id="lb5">
+                                <rect y="0"  x="170"></rect>
+                                <rect y="5"  x="170"></rect>
+                                <rect y="10" x="170"></rect>
+                                <rect y="15" x="170"></rect>
+                                <rect y="20" x="170"></rect>
+                                </g>
+                                <text x="105" y="40">Bad</text>
+                                <text x="160" y="40">Worst</text>
+                                <text x="107" y="50">Bad governance</text>
+                            </g>
+                            <path id="lhexp" class="healthexp"></path>
+                            <text x="202" y="40">Spending on Health</text>
+                            <text x="222" y="50">% of GDP</text>
+                            <path id="leexp" class="eduexp"></path>
+                            <text x="313" y="40">Spending on Education</text>
+                            <text x="345" y="50">% of GDP</text>
+                        </svg>
+                    </div>
+                    <p>Each country is represented as a single slice of the circle. Values increase as they move towards the outer edge of each circle and decrease as they move towards the center.<br>
+                    Governance indicator values are on a scale from -2.5 to 2.5. Values progress from 0 to 2.5 in case of good governance and from 0 to -2.5 in case of bad governance. Each bar shown in the visualization represents upto 0.5 points.
+                    <br>Hovering over any section shows the relevant data values for that country slice.</p>
+                </div>
+                <div class="col-12 col-lg-6">
+                    <div class="title">Data collection &amp; Methodology</div>
+                    <div class="mt-1">
+                        All data used is from the year 2015 so as to maintain consistency while ensuring that sufficient data is available.<br>
+                        Countries with insufficient or missing data have been excluded from analysis.<br>
+                        To calculate the list of countries with similar governance indicators, the mean squared difference between the four governance indicator scores for each pair of countries was calculated and the three countries having the lowest mean squared difference were selected for each reference country. In case the mean squared difference was greater than or equal to 0.2, the country was not considered for inclusion which has resulted in some countries having less than three similar countries in their list.
+                    </div>
+                    <div class="mt-2">
+                        Data used in the visualization has been collected from the following sources:
+                    <br>
+                    <a href="http://hdr.undp.org/en/data#">http://hdr.undp.org/en/data#</a>
+                    <br>
+                    <a href="http://apps.who.int/nha/database">http://apps.who.int/nha/database</a>
+                    <br>
+                    <a href="http://data.uis.unesco.org/?queryid=181">http://data.uis.unesco.org/?queryid=181</a>
+                    <br>
+                    <a href="http://info.worldbank.org/governance/wgi/#home">http://info.worldbank.org/governance/wgi/#home</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="footer pt-5">
+            <div class="container">
+                <div>Entry by <a href="mailto:abdulqadir.rashik@gmail.com">Abdulqadir Rashik</a> for</div>
+                <div id="wdvp-logo" class="my-2 mx-auto"><img src="wdvp.png"/></div>
             </div>
         </section>
         <div id="countryInfoPopover">
@@ -116,6 +210,7 @@
                     </div>
                 </div>
             </div>
+        </div>
         </div>
     </body>
     <script src="script.js"></script>

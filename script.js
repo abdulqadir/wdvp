@@ -175,9 +175,10 @@ ginner.append('text').append('textPath').attr('href','#HHDI').text(_.filter(data
 ginner.append('path').attr('d', 'M' + coords(Math.PI, 169) + 'A' + '169,169 0 0 1 ' + coords(2.9 * Math.PI/2, 169)).attr('id', 'VHDI');
 ginner.append('text').append('textPath').attr('href','#VHDI').text(_.filter(data,vhdi).length + ' countries with Very high HDI').attr('class','vhdi');
 
+var colorPalette = ['#FF35AA','#FF3535','#FF5300','#FFB505','#FFE526','#6AE71E','#53ECDA','#07BDE7','#0571D4','#2D1FCF'];
 var circularPlot = function(y, outerRadius) {
     var ydomain = [-2.5, 2.5];
-    var colorscale =  d3.scaleQuantize().domain([-2.5, 2.5]).range(['#FF35AA','#FF3535','#FF5300','#FFB505','#FFE526','#6AE71E','#53ECDA','#07BDE7','#0571D4','#2D1FCF']);
+    var colorscale =  d3.scaleQuantize().domain([-2.5, 2.5]).range(colorPalette);
     return {
         draw: function(elem) {
             var g = elem.append('g').attr('transform',centerTransform).attr('class', 'circular-plot');
@@ -260,3 +261,34 @@ r.draw(circular);
 
 circular.select('.info').attr('transform', centerTransform);
 circular.select('.annotations').attr('transform', centerTransform);
+
+var legend = d3.select('#legend').attr('width', 490).attr('height', 53);
+d3.selectAll('#legend rect').attr('height', 3).attr('width', 10).attr('rx',2).attr('ry',2);
+d3.selectAll('#lb5 rect').attr('fill',colorPalette[0]);
+d3.selectAll('#lb4 rect').attr('fill',colorPalette[1]);
+d3.selectAll('#lb3 rect').attr('fill',colorPalette[2]);
+d3.selectAll('#lb2 rect').attr('fill',colorPalette[3]);
+d3.selectAll('#lb1 rect').attr('fill',colorPalette[4]);
+d3.selectAll('#lg1 rect').attr('fill',colorPalette[5]);
+d3.selectAll('#lg2 rect').attr('fill',colorPalette[6]);
+d3.selectAll('#lg3 rect').attr('fill',colorPalette[7]);
+d3.selectAll('#lg4 rect').attr('fill',colorPalette[8]);
+d3.selectAll('#lg5 rect').attr('fill',colorPalette[9]);
+var lline = d3.line().curve(d3.curveCatmullRom);
+function wave(start) {
+    var arr = [];
+    for (var i=0;i<3;i++) {
+        arr.push([start, 13]);
+        start += 7;
+        arr.push([start, 5]);
+        start += 7;
+        arr.push([start, 13]);
+        start += 7;
+        arr.push([start, 21]);
+        start += 7;
+    }
+    arr.push([start, 13]);
+    return arr;
+}
+legend.select('#lhexp').attr('d',lline(wave(210))).style('fill','none');
+legend.select('#leexp').attr('d',lline(wave(330))).style('fill','none');
