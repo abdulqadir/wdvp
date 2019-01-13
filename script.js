@@ -106,17 +106,18 @@ function positionPopover() {
     cmouse[0] -= centerX;
     cmouse[1] -= centerY;
     countryInfoElem.style('opacity', 0.8);
+    var rect = countryInfoElem.node().getBoundingClientRect();
     if (cmouse[1] > 0){
         countryInfoElem.style('top', (mouse[1]+5)+'px');
     }
     else {
-        countryInfoElem.style('top', (mouse[1]-countryInfoElem.node().getBoundingClientRect()['height']-5)+'px');
+        countryInfoElem.style('top', (mouse[1]-rect['height']-5)+'px');
     }
     if (cmouse[0] > 0) {
         countryInfoElem.style('left', (mouse[0]+5)+'px');
     }
     else {
-        countryInfoElem.style('left', (mouse[0]-countryInfoElem.node().getBoundingClientRect()['width']-5)+'px');
+        countryInfoElem.style('left', (mouse[0]-rect['width']-5)+'px');
     }
 }
 
@@ -195,8 +196,8 @@ gbackground.selectAll('path').data(data).enter().append('path').attr('d', functi
 .attr('data-country', function(d){return d['country'];})
 .style('opacity',0.1)
 .on('mouseover', function(d) {
+    d3.selectAll('.background').style('opacity','0.07');
     d3.select(this).style('opacity','0.21');
-    d3.selectAll('.background:not([data-country="' + d['country'] + '"])').style('opacity','0.07');
     d3.select('#countryInfo').style('opacity',1);
     d3.select('#tip').style('opacity',0);
     fillCountryInfo(d);
