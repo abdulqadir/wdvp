@@ -167,13 +167,13 @@ ginner.selectAll('path').data(data).enter().append('path').attr('d', function(d,
 .attr('class', classifyHDI);
 
 ginner.append('path').attr('d', 'M' + coords(6.2 * Math.PI/4, 169) + 'A' + '169,169 0 0 1 ' + coords(1.85*Math.PI, 169)).attr('id', 'LHDI');
-ginner.append('text').append('textPath').attr('href','#LHDI').text(_.filter(data,lhdi).length + ' countries with Low HDI').attr('class','lhdi');
+ginner.append('text').append('textPath').attr('href','#LHDI').attr('xlink:href','#LHDI').text(_.filter(data,lhdi).length + ' countries with Low HDI').attr('class','lhdi');
 ginner.append('path').attr('d', 'M' + coords(1.97 * Math.PI, 169) + 'A' + '169,169 0 0 1 ' + coords(0.72*Math.PI/2, 169)).attr('id', 'MHDI');
-ginner.append('text').append('textPath').attr('href','#MHDI').text(_.filter(data,mhdi).length + ' countries with Medium HDI').attr('class','mhdi');
+ginner.append('text').append('textPath').attr('href','#MHDI').attr('xlink:href','#MHDI').text(_.filter(data,mhdi).length + ' countries with Medium HDI').attr('class','mhdi');
 ginner.append('path').attr('d', 'M' + coords(Math.PI/2, 169) + 'A' + '169,169 0 0 1 ' + coords(0.85*Math.PI, 169)).attr('id', 'HHDI');
-ginner.append('text').append('textPath').attr('href','#HHDI').text(_.filter(data,hhdi).length + ' countries with High HDI').attr('class','hhdi');
+ginner.append('text').append('textPath').attr('href','#HHDI').attr('xlink:href','#HHDI').text(_.filter(data,hhdi).length + ' countries with High HDI').attr('class','hhdi');
 ginner.append('path').attr('d', 'M' + coords(Math.PI, 169) + 'A' + '169,169 0 0 1 ' + coords(2.9 * Math.PI/2, 169)).attr('id', 'VHDI');
-ginner.append('text').append('textPath').attr('href','#VHDI').text(_.filter(data,vhdi).length + ' countries with Very high HDI').attr('class','vhdi');
+ginner.append('text').append('textPath').attr('href','#VHDI').attr('xlink:href','#VHDI').text(_.filter(data,vhdi).length + ' countries with Very high HDI').attr('class','vhdi');
 
 var colorPalette = ['#FF35AA','#FF3535','#FF5300','#FFB505','#FFE526','#6AE71E','#53ECDA','#07BDE7','#0571D4','#2D1FCF'];
 var circularPlot = function(y, outerRadius) {
@@ -205,7 +205,7 @@ var circularPlot = function(y, outerRadius) {
                 });
                 outerRadius = outerRadius - 5;
             }
-            g.append('text').append('textPath').attr('href','#' + y).text(y);
+            g.append('text').append('textPath').attr('href','#' + y).attr('xlink:href','#' + y).text(y);
         }
     }
 }
