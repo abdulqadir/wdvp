@@ -28,6 +28,15 @@ var arc = d3.arc();
 var arcLength = Math.PI * 2 / data.length;
 var circular = d3.select('#circular').attr('width','1140').attr('height','1052');
 
+function getExpenditure(exp, d) {
+    var p = 'N/A';
+    if (d[exp] !== null) {
+        p = Number(d[exp]);
+        p = Math.round(p*100)/100;
+        p += '%';
+    }
+    return p;
+}
 function fillCountryInfo(d) {
     d3.select('#countryInfoName').text(d['country']);
     countryInfoElem.select('#countryName').text(d['country']);
@@ -84,20 +93,8 @@ function fillCountryInfo(d) {
     }
     else {
         countryInfoElem.select('#expenditure').style('display','block');
-        var p = 'N/A';
-        if (d['health'] !== null) {
-            p = Number(d['health']);
-            p = Math.round(p*100)/100;
-            p += '%';
-        }
-        d3.select('#healthExpenditure').text(p);
-        p = 'N/A';
-        if (d['education'] !== null) {
-            p = Number(d['education'])
-            p = Math.round(p*100)/100;
-            p += '%';
-        }
-        d3.select('#educationExpenditure').text(p);
+        d3.select('#healthExpenditure').text(getExpenditure('health', d));
+        d3.select('#educationExpenditure').text(getExpenditure('education', d));
     }
     countryInfoElem.select('#statistic').text(statistic);
     countryInfoElem.select('#score').text(score);
@@ -122,6 +119,43 @@ function positionPopover() {
         countryInfoElem.style('left', (mouse[0]-countryInfoElem.node().getBoundingClientRect()['width']-5)+'px');
     }
 }
+
+var visNode = d3.select('#visualization').node();
+
+function getScore(x) {
+    return Math.round(x*100)/100;
+}
+var selected = '';
+function deselectAll() {
+    selected = '';
+    d3.selectAll('.selected').classed('selected', false);
+}
+function compare(c1, c2) {
+    deselectAll();
+    d3.select('#compareName1').text(c1['country']);
+    d3.select('#compareName2').text(c2['country']);
+    d3.select('#compareHDI1').text(c1['hdi']).attr('class', classifyHDI(c1));
+    d3.select('#compareHDI2').text(c2['hdi']).attr('class', classifyHDI(c2));
+    d3.select('#compareRank1').text(c1['rank']);
+    d3.select('#compareRank2').text(c2['rank']);
+    d3.select('#compareHealth1').text(getExpenditure('health',c1));
+    d3.select('#compareHealth2').text(getExpenditure('health',c2));
+    d3.select('#compareEducation1').text(getExpenditure('education',c1));
+    d3.select('#compareEducation2').text(getExpenditure('education',c2));
+    d3.select('#comparePS1').text(getScore(c1['political stability & absence of violence']));
+    d3.select('#comparePS2').text(getScore(c2['political stability & absence of violence']));
+    d3.select('#compareGE1').text(getScore(c1['government effectiveness']));
+    d3.select('#compareGE2').text(getScore(c2['government effectiveness']));
+    d3.select('#compareRQ1').text(getScore(c1['regulatory quality']));
+    d3.select('#compareRQ2').text(getScore(c2['regulatory quality']));
+    d3.select('#compareRL1').text(getScore(c1['rule of law']));
+    d3.select('#compareRL2').text(getScore(c2['rule of law']));
+    d3.select('#countryComparison').style('top', (visNode.offsetTop+270)+'px').transition().duration(153).style('left', (visNode.offsetLeft + 286) + 'px');
+}
+function dismiss() {
+    d3.select('#countryComparison').transition().duration(253).style('left', '-610px');
+}
+d3.select('html').on('click', dismiss);
 
 var gbackground = circular.append('g').attr('transform',centerTransform);
 arc.outerRadius(450).innerRadius(200);
@@ -150,6 +184,25 @@ gbackground.selectAll('path').data(data).enter().append('path').attr('d', functi
     d3.select('#tip').style('opacity',1);
     d3.selectAll('.background').style('opacity','0.1');
     countryInfoElem.style('opacity',0);
+})
+.on('click', function(d) {
+    if (d3.select('#countryComparison').style('left')[0] !== '-') {
+        dismiss();
+        return;
+    }
+    if (selected !== '') {
+        if (d === selected) {
+            deselectAll();
+        }
+        else {
+            compare(selected, d);
+        }
+    }
+    else {
+        selected = d;
+        d3.select(this).classed('selected',true);
+    }
+    d3.event.stopPropagation();
 });
 
 function coords(angle, radius) {
@@ -176,9 +229,9 @@ ginner.append('path').attr('d', 'M' + coords(Math.PI, 169) + 'A' + '169,169 0 0 
 ginner.append('text').append('textPath').attr('href','#VHDI').attr('xlink:href','#VHDI').text(_.filter(data,vhdi).length + ' countries with Very high HDI').attr('class','vhdi');
 
 var colorPalette = ['#FF35AA','#FF3535','#FF5300','#FFB505','#FFE526','#6AE71E','#53ECDA','#07BDE7','#0571D4','#2D1FCF'];
+var colorscale =  d3.scaleQuantize().domain([-2.5, 2.5]).range(colorPalette);
 var circularPlot = function(y, outerRadius) {
     var ydomain = [-2.5, 2.5];
-    var colorscale =  d3.scaleQuantize().domain([-2.5, 2.5]).range(colorPalette);
     return {
         draw: function(elem) {
             var g = elem.append('g').attr('transform',centerTransform).attr('class', 'circular-plot');

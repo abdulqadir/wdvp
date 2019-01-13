@@ -50,6 +50,9 @@ path.lhdi, path.mhdi, path.hhdi, path.vhdi {
     stroke: #FFE;
     stroke-width: 1px;
 }
+.selected {
+    opacity: 0.23!important;
+}
 .footer {
     text-align: center;
     font-size: 0.8em;
@@ -153,4 +156,25 @@ path#LHDI, path#MHDI, path#HHDI, path#VHDI {
 }
 .footnote {
     font-size: 0.8rem;
+}
+#countryComparison {
+    position: absolute;
+    background-color: #FFF;
+    padding: 23px;
+    width: 600px;
+    height: 553px;
+    font-size: 0.7rem;
+    box-shadow: 1px 1px 5px #d7d2c8;
+    top: 0px;
+    left: -610px;
+}
+.n {
+    font-weight: 500;
+    font-size: 1.1rem;
+}
+.r {
+    text-align: right;
+}
+#countryComparison .row {
+    padding: 0.53rem;
 }
