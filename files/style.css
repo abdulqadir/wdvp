@@ -132,6 +132,7 @@ path#LHDI, path#MHDI, path#HHDI, path#VHDI {
 }
 #countryName {
     font-weight: 500;
+    font-size: 0.75rem;
 }
 .annotations text{
     font-size: 0.7rem;
