@@ -131,16 +131,18 @@ path#LHDI, path#MHDI, path#HHDI, path#VHDI {
     box-shadow: 1px 1px 5px #d7d2c8;
 }
 #countryName {
-    font-weight: 500;
     font-size: 0.75rem;
 }
 .annotations text{
     font-size: 0.7rem;
-    font-weight: 200;
+    fill: #535353;
+    opacity: 0.72;
 }
 .annotations .title {
     font-size: 0.8rem;
     font-weight: 400;
+    fill: #212121;
+    opacity: 1;
 }
 .annotations path {
     stroke: #DDD;

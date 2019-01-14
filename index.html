@@ -2,8 +2,8 @@
 <html lang="en">
     <head>
         <meta charset="utf-8"/>
-        <link href="https://fonts.googleapis.com/css?family=Montserrat:200,300,400,500" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,700" rel="stylesheet"> 
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Playfair+Display" rel="stylesheet">
         <script src="deps/d3/5.3.0/d3.min.js"></script>
         <script src="deps/underscore.js/1.9.1/underscore-min.js"></script>
         <link rel="stylesheet" href="deps/bootstrap-4.2.1-dist/css/bootstrap.min.css">
@@ -95,102 +95,63 @@
         <section class="footnote">
             <div class="container">
                 <div class="row">
-                <div class="col-12 col-lg-6">
-                    <div class="title">Interpreting the visualization</div>
-                    <div class="mt-1">
-                    The circular visualization has four outer discs representing four governance indicators, and an inner disc showing the spending on health as well as education as a percentage of the country's GDP.
+                    <div class="col-12 col-lg-6">
+                        <div class="title">Interpreting the visualization</div>
+                        <div class="mt-1">
+                        The circular visualization has four outer discs representing four governance indicators, and an inner disc showing the spending on health as well as education as a percentage of the country's GDP.
+                        </div>
+                        <div class="py-4 ml-3" style="width:430px">
+                            <svg id="legend">
+                                <g id="good">
+                                    <g id="lg5"><rect y="0"  x="10"></rect><rect y="5"  x="10"></rect><rect y="10" x="10"></rect><rect y="15" x="10"></rect><rect y="20" x="10"></rect></g>
+                                    <g id="lg4"><rect y="5"  x="25"></rect><rect y="10" x="25"></rect><rect y="15" x="25"></rect><rect y="20" x="25"></rect></g>
+                                    <g id="lg3"><rect y="10" x="40"></rect><rect y="15" x="40"></rect><rect y="20" x="40"></rect></g>
+                                    <g id="lg2"><rect y="15" x="55"></rect><rect y="20" x="55"></rect></g>
+                                    <g id="lg1"><rect y="20" x="70"></rect></g>
+                                    <text x="2"  y="40">Best</text>
+                                    <text x="60" y="40">Good</text>
+                                    <text x="2" y="50">Good governance</text>
+                                </g>
+                                <g id="bad">
+                                    <g id="lb1"><rect y="20" x="110"></rect></g>
+                                    <g id="lb2"><rect y="15" x="125"></rect><rect y="20" x="125"></rect></g>
+                                    <g id="lb3"><rect y="10" x="140"></rect><rect y="15" x="140"></rect><rect y="20" x="140"></rect></g>
+                                    <g id="lb4"><rect y="5"  x="155"></rect><rect y="10" x="155"></rect><rect y="15" x="155"></rect><rect y="20" x="155"></rect></g>
+                                    <g id="lb5"><rect y="0"  x="170"></rect><rect y="5"  x="170"></rect><rect y="10" x="170"></rect><rect y="15" x="170"></rect><rect y="20" x="170"></rect></g>
+                                    <text x="105" y="40">Bad</text>
+                                    <text x="160" y="40">Worst</text>
+                                    <text x="107" y="50">Bad governance</text>
+                                </g>
+                                <path id="lhexp" class="healthexp"></path>
+                                <text x="202" y="40">Spending on Health</text>
+                                <text x="222" y="50">% of GDP</text>
+                                <path id="leexp" class="eduexp"></path>
+                                <text x="313" y="40">Spending on Education</text>
+                                <text x="345" y="50">% of GDP</text>
+                            </svg>
+                        </div>
+                        <p>Each country is represented as a single slice of the circle. Values increase towards the outer edge of each circle and decrease towards the center.<br>
+                        Governance indicator values are on a scale from -2.5 to 2.5. Values progress from 0 to 2.5 in case of good governance and from 0 to -2.5 in case of bad governance. Each bar shown in the visualization represents upto 0.5 points.
+                        <br>Hovering over any section shows the relevant data values for that country slice. Clicking on any two countries shows a comparison of their values.</p>
                     </div>
-                    <div class="py-4 ml-3" style="width:430px">
-                        <svg id="legend">
-                            <g id="good">
-                                <g id="lg5">
-                                <rect y="0"  x="10"></rect>
-                                <rect y="5"  x="10"></rect>
-                                <rect y="10" x="10"></rect>
-                                <rect y="15" x="10"></rect>
-                                <rect y="20" x="10"></rect>
-                                </g>
-                                <g id="lg4">
-                                <rect y="5"  x="25"></rect>
-                                <rect y="10" x="25"></rect>
-                                <rect y="15" x="25"></rect>
-                                <rect y="20" x="25"></rect>
-                                </g>
-                                <g id="lg3">
-                                <rect y="10" x="40"></rect>
-                                <rect y="15" x="40"></rect>
-                                <rect y="20" x="40"></rect>
-                                </g>
-                                <g id="lg2">
-                                <rect y="15" x="55"></rect>
-                                <rect y="20" x="55"></rect>
-                                </g>
-                                <g id="lg1">
-                                <rect y="20" x="70"></rect>
-                                </g>
-                                <text x="2"  y="40">Best</text>
-                                <text x="60" y="40">Good</text>
-                                <text x="2" y="50">Good governance</text>
-                            </g>
-                            <g id="bad">
-                                <g id="lb1">
-                                <rect y="20" x="110"></rect>
-                                </g>
-                                <g id="lb2">
-                                <rect y="15" x="125"></rect>
-                                <rect y="20" x="125"></rect>
-                                </g>
-                                <g id="lb3">
-                                <rect y="10" x="140"></rect>
-                                <rect y="15" x="140"></rect>
-                                <rect y="20" x="140"></rect>
-                                </g>
-                                <g id="lb4">
-                                <rect y="5"  x="155"></rect>
-                                <rect y="10" x="155"></rect>
-                                <rect y="15" x="155"></rect>
-                                <rect y="20" x="155"></rect>
-                                </g>
-                                <g id="lb5">
-                                <rect y="0"  x="170"></rect>
-                                <rect y="5"  x="170"></rect>
-                                <rect y="10" x="170"></rect>
-                                <rect y="15" x="170"></rect>
-                                <rect y="20" x="170"></rect>
-                                </g>
-                                <text x="105" y="40">Bad</text>
-                                <text x="160" y="40">Worst</text>
-                                <text x="107" y="50">Bad governance</text>
-                            </g>
-                            <path id="lhexp" class="healthexp"></path>
-                            <text x="202" y="40">Spending on Health</text>
-                            <text x="222" y="50">% of GDP</text>
-                            <path id="leexp" class="eduexp"></path>
-                            <text x="313" y="40">Spending on Education</text>
-                            <text x="345" y="50">% of GDP</text>
-                        </svg>
-                    </div>
-                    <p>Each country is represented as a single slice of the circle. Values increase towards the outer edge of each circle and decrease towards the center.<br>
-                    Governance indicator values are on a scale from -2.5 to 2.5. Values progress from 0 to 2.5 in case of good governance and from 0 to -2.5 in case of bad governance. Each bar shown in the visualization represents upto 0.5 points.
-                    <br>Hovering over any section shows the relevant data values for that country slice. Clicking on any two countries shows a comparison of their values.</p>
-                </div>
-                <div class="col-12 col-lg-6">
-                    <div class="title">Data collection &amp; Methodology</div>
-                    <div class="mt-1">
-                        All data used is from the year 2015 so as to maintain consistency while ensuring that sufficient data is available.<br>
-                        Countries with insufficient or missing data have been excluded from analysis.<br>
-                        To calculate the list of countries with similar governance indicators, the mean squared difference between the four governance indicator scores for each pair of countries was calculated and the three countries having the lowest mean squared difference were selected for each reference country. In case the mean squared difference was greater than or equal to 0.2, the country was not considered for inclusion which has resulted in some countries having less than three similar countries in their list.
-                    </div>
-                    <div class="mt-2">
-                        Data used in the visualization has been collected from the following sources:
-                    <br>
-                    <a href="http://hdr.undp.org/en/data#">http://hdr.undp.org/en/data#</a>
-                    <br>
-                    <a href="http://apps.who.int/nha/database">http://apps.who.int/nha/database</a>
-                    <br>
-                    <a href="http://data.uis.unesco.org/?queryid=181">http://data.uis.unesco.org/?queryid=181</a>
-                    <br>
-                    <a href="http://info.worldbank.org/governance/wgi/#home">http://info.worldbank.org/governance/wgi/#home</a>
+                    <div class="col-12 col-lg-6">
+                        <div class="title">Data collection &amp; Methodology</div>
+                        <div class="mt-1">
+                            All data used is from the year 2015 so as to maintain consistency while ensuring that sufficient data is available.<br>
+                            Countries with insufficient or missing data have been excluded from analysis.<br>
+                            To calculate the list of countries with similar governance indicators, the mean squared difference between the four governance indicator scores for each pair of countries was calculated and the three countries having the lowest mean squared difference were selected for each reference country. In case the mean squared difference was greater than or equal to 0.2, the country was not considered for inclusion which has resulted in some countries having less than three similar countries in their list.
+                        </div>
+                        <div class="mt-2">
+                            Data used in the visualization has been collected from the following sources:
+                        <br>
+                        <a href="http://hdr.undp.org/en/data#">http://hdr.undp.org/en/data#</a>
+                        <br>
+                        <a href="http://apps.who.int/nha/database">http://apps.who.int/nha/database</a>
+                        <br>
+                        <a href="http://data.uis.unesco.org/?queryid=181">http://data.uis.unesco.org/?queryid=181</a>
+                        <br>
+                        <a href="http://info.worldbank.org/governance/wgi/#home">http://info.worldbank.org/governance/wgi/#home</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -203,65 +164,63 @@
         </section>
         <div id="countryInfoPopover">
             <div id="countryName" class="title"></div>
-                <div class="row mt-1">
-                    <div id="statistic" class="col-9"></div>
-                    <div id="score" class="col-3"></div>
-                </div>
-                <div id="expenditure">
-                    <div><i>Spending as % of GDP</i></div>
-                    <div class="row">
-                        <div class="col-6">
-                            <div>Health</div>
-                            <div id="healthExpenditure" class="healthexp"></div>
-                        </div>
-                        <div class="col-6">
-                            <div>Education</div>
-                            <div id="educationExpenditure" class="eduexp"></div>
-                        </div>
+            <div class="row mt-1">
+                <div id="statistic" class="col-9"></div>
+                <div id="score" class="col-3"></div>
+            </div>
+            <div id="expenditure">
+                <div><i>Spending as % of GDP</i></div>
+                <div class="row">
+                    <div class="col-6">
+                        <div>Health</div>
+                        <div id="healthExpenditure" class="healthexp"></div>
+                    </div>
+                    <div class="col-6">
+                        <div>Education</div>
+                        <div id="educationExpenditure" class="eduexp"></div>
                     </div>
                 </div>
             </div>
         </div>
         <div id="countryComparison">
             <button id="dismiss" class="close" style="position:absolute;top:6px;right:9px;">&times;</button>
-                <div class="row">
-                    <div id="compareName1" class="col-6 title" style="text-align:center"></div>
-                    <div id="compareName2" class="col-6 title" style="text-align:center"></div>
-                </div>
-                <div class="row">
-                    <div class="col-4">HDI</div><div class="col-2 n r"><span id="compareHDI1"></span></div><div class="col-2 n"><span id="compareHDI2"></span></div><div class="col-4 r">HDI</div>
-                </div>
-                <div class="row">
-                    <div class="col-4">Rank</div><div id="compareRank1" class="col-2 n r"></div><div id="compareRank2" class="col-2 n"></div><div class="col-4 r">Rank</div>
-                </div>
-                <div class="row mt-4">
-                    <div class="col-12" style="text-align:center">Expenditure as a % of GDP</div>
-                </div>
-                <div class="row">
-                    <div class="col-4">Health</div><div id="compareHealth1" class="col-2 n r"></div><div id="compareHealth2" class="col-2 n"></div><div class="col-4 r">Health</div>
-                </div>
-                <div class="row">
-                    <div class="col-4">Education</div><div id="compareEducation1" class="col-2 n r"></div><div id="compareEducation2" class="col-2 n"></div><div class="col-4 r">Education</div>
-                </div>
-                <div class="row mt-4">
-                    <div class="col-12" style="text-align:center">Governance Indicators</div>
-                </div>
-                <div class="row">
-                    <div class="col-3">Political stability &amp; absence of violence</div><div id="comparePSLev1" class="col-1"></div><div id="comparePS1" class="col-2 n r"></div><div id="comparePS2" class="col-2 n"></div><div id="comparePSLev2" class="col-1"></div><div class="col-3 r">Political stability &amp; absence of violence</div>
-                </div>
-                <div class="row">
-                    <div class="col-3">Government effectiveness</div><div id="compareGELev1" class="col-1"></div><div id="compareGE1" class="col-2 n r"></div><div id="compareGE2" class="col-2 n"></div><div id="compareGELev2" class="col-1"></div><div class="col-3 r">Government effectiveness</div>
-                </div>
-                <div class="row">
-                    <div class="col-3">Regulatory quality</div><div id="compareRQLev1" class="col-1"></div><div id="compareRQ1" class="col-2 n r"></div><div id="compareRQ2" class="col-2 n"></div><div id="compareRQLev2" class="col-1"></div><div class="col-3 r">Regulatory quality</div>
+            <div class="row">
+                <div id="compareName1" class="col-6 title" style="text-align:center"></div>
+                <div id="compareName2" class="col-6 title" style="text-align:center"></div>
+            </div>
+            <div class="row">
+                <div class="col-4">HDI</div><div class="col-2 n r"><span id="compareHDI1"></span></div><div class="col-2 n"><span id="compareHDI2"></span></div><div class="col-4 r">HDI</div>
+            </div>
+            <div class="row">
+                <div class="col-4">Rank</div><div id="compareRank1" class="col-2 n r"></div><div id="compareRank2" class="col-2 n"></div><div class="col-4 r">Rank</div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-12" style="text-align:center">Expenditure as a % of GDP</div>
+            </div>
+            <div class="row">
+                <div class="col-4">Health</div><div id="compareHealth1" class="col-2 n r"></div><div id="compareHealth2" class="col-2 n"></div><div class="col-4 r">Health</div>
+            </div>
+            <div class="row">
+                <div class="col-4">Education</div><div id="compareEducation1" class="col-2 n r"></div><div id="compareEducation2" class="col-2 n"></div><div class="col-4 r">Education</div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-12" style="text-align:center">Governance Indicators</div>
+            </div>
+            <div class="row">
+                <div class="col-3">Political stability &amp; absence of violence</div><div id="comparePSLev1" class="col-1"></div><div id="comparePS1" class="col-2 n r"></div><div id="comparePS2" class="col-2 n"></div><div id="comparePSLev2" class="col-1"></div><div class="col-3 r">Political stability &amp; absence of violence</div>
+            </div>
+            <div class="row">
+                <div class="col-3">Government effectiveness</div><div id="compareGELev1" class="col-1"></div><div id="compareGE1" class="col-2 n r"></div><div id="compareGE2" class="col-2 n"></div><div id="compareGELev2" class="col-1"></div><div class="col-3 r">Government effectiveness</div>
+            </div>
+            <div class="row">
+                <div class="col-3">Regulatory quality</div><div id="compareRQLev1" class="col-1"></div><div id="compareRQ1" class="col-2 n r"></div><div id="compareRQ2" class="col-2 n"></div><div id="compareRQLev2" class="col-1"></div><div class="col-3 r">Regulatory quality</div>
 
-                </div>
-                <div class="row">
-                    <div class="col-3">Rule of law</div><div id="compareRLLev1" class="col-1"></div><div id="compareRL1" class="col-2 n r"></div><div id="compareRL2" class="col-2 n"></div><div id="compareRLLev2" class="col-1"></div><div class="col-3 r">Rule of law</div>
+            </div>
+            <div class="row">
+                <div class="col-3">Rule of law</div><div id="compareRLLev1" class="col-1"></div><div id="compareRL1" class="col-2 n r"></div><div id="compareRL2" class="col-2 n"></div><div id="compareRLLev2" class="col-1"></div><div class="col-3 r">Rule of law</div>
 
-                </div>
-            </table>
+            </div>
         </div>
+        <script src="files/script.js"></script>
     </body>
-    <script src="files/script.js"></script>
 </html>
