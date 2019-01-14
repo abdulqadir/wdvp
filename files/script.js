@@ -146,11 +146,12 @@ function showScore(elem, score) {
     svg.append('rect').attr('y',20);
     svg.selectAll('rect').attr('x',0).attr('height', 3).attr('width', 10).attr('rx',2).attr('ry',2).attr('fill', color);
 }
-var selected = '';
 function deselectAll() {
     selected = '';
     d3.selectAll('.selected').classed('selected', false);
+    d3.select('#countryInfoTip').text('Click to compare with another country');
 }
+deselectAll();
 function compare(c1, c2) {
     deselectAll();
     d3.select('#compareName1').text(c1['country']);
@@ -200,6 +201,12 @@ gbackground.selectAll('path').data(data).enter().append('path').attr('d', functi
     d3.select(this).style('opacity','0.21');
     d3.select('#countryInfo').style('opacity',1);
     d3.select('#tip').style('opacity',0);
+    if (selected === d) {
+        d3.select('#countryInfoTip').style('opacity', 0);
+    }
+    else {
+        d3.select('#countryInfoTip').style('opacity', 0.53);
+    }
     fillCountryInfo(d);
     positionPopover();
 })
@@ -219,6 +226,7 @@ gbackground.selectAll('path').data(data).enter().append('path').attr('d', functi
         dismiss();
         return;
     }
+    d3.select('#countryInfoTip').style('opacity', 0);
     if (selected !== '') {
         if (d === selected) {
             deselectAll();
@@ -229,6 +237,7 @@ gbackground.selectAll('path').data(data).enter().append('path').attr('d', functi
     }
     else {
         selected = d;
+        d3.select('#countryInfoTip').text('Click to compare with ' + d['country']);
         d3.select(this).classed('selected',true);
     }
     d3.event.stopPropagation();
