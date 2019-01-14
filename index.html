@@ -29,9 +29,14 @@
             <div id="visualization" class="container">
                 <svg id="circular">
                     <g class="info">
-                        <text id="tip" class="title" x="0" y="0">
-                            Hover over any country to view details
-                        </text>
+                        <g id="tip">
+                            <text class="title" x="0" y="0">
+                                Hover over any country to view details
+                            </text>
+                            <text x="0" y="21" fill="#535353">
+                                Click any two countries to compare
+                            </text>
+                        </g>
                         <g id="countryInfo">
                             <text id="countryInfoName" class="title" x="0" y="-100"></text>
                             <text id="countryInfoHDI" x="0" y="-80"></text>
