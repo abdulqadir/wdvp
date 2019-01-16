@@ -354,17 +354,8 @@ circular.select('.info').attr('transform', centerTransform);
 circular.select('.annotations').attr('transform', centerTransform);
 
 var legend = d3.select('#legend').attr('width', 490).attr('height', 53);
-d3.selectAll('#legend rect').attr('height', 3).attr('width', 10).attr('rx',2).attr('ry',2);
-d3.selectAll('#lb5 rect').attr('fill',colorPalette[0]);
-d3.selectAll('#lb4 rect').attr('fill',colorPalette[1]);
-d3.selectAll('#lb3 rect').attr('fill',colorPalette[2]);
-d3.selectAll('#lb2 rect').attr('fill',colorPalette[3]);
-d3.selectAll('#lb1 rect').attr('fill',colorPalette[4]);
-d3.selectAll('#lg1 rect').attr('fill',colorPalette[5]);
-d3.selectAll('#lg2 rect').attr('fill',colorPalette[6]);
-d3.selectAll('#lg3 rect').attr('fill',colorPalette[7]);
-d3.selectAll('#lg4 rect').attr('fill',colorPalette[8]);
-d3.selectAll('#lg5 rect').attr('fill',colorPalette[9]);
+legend.selectAll('rect').attr('height', 3).attr('width', 10).attr('rx',2).attr('ry',2);
+_.each(['b5','b4','b3','b2','b1','g1','g2','g3','g4','g5'], function(l,i){legend.selectAll('#l' + l + ' rect').attr('fill', colorPalette[i]);});
 var lline = d3.line().curve(d3.curveCatmullRom);
 function wave(start) {
     var arr = [];
