@@ -130,6 +130,9 @@ path#LHDI, path#MHDI, path#HHDI, path#VHDI {
     font-size: 0.7rem;
     box-shadow: 1px 1px 5px #d7d2c8;
 }
+#statistic {
+    text-transform: capitalize;
+}
 #countryName {
     font-size: 0.75rem;
 }

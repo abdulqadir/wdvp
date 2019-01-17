@@ -19,6 +19,7 @@ var classifyHDI = function(d) {
 }
 
 var data = _.sortBy(data, function(c){return c['hdi'];});
+var indicators = ['political stability & absence of violence','government effectiveness','regulatory quality','rule of law'];
 var htmlNode = d3.select('html').node();
 var countryInfoElem = d3.select('#countryInfoPopover');
 var centerX = 570, centerY = 530;
@@ -70,34 +71,32 @@ function fillCountryInfo(d) {
     mouse[0] -= centerX;
     mouse[1] -= centerY;
     var radius = Math.sqrt(Math.pow(mouse[0],2) + Math.pow(mouse[1],2));
-    var statistic;
-    var score;
     if (radius > 250) {
+        var statistic;
         countryInfoElem.select('#expenditure').style('display','none');
         if (radius > 400) {
-            statistic = 'Political Stability & Absence Of Violence';
-            score = Math.round(d['political stability & absence of violence']*100)/100;
+            statistic = 0;
         }
         else if (radius > 350) {
-            statistic = 'Government Effectiveness';
-            score = Math.round(d['government effectiveness']*100)/100;
+            statistic = 1;
         }
         else if (radius > 300) {
-            statistic = 'Regulatory Quality';
-            score = Math.round(d['regulatory quality']*100)/100;
+            statistic = 2;
         }
         else {
-            statistic = 'Rule of Law';
-            score = Math.round(d['rule of law']*100)/100;
+            statistic = 3;
         }
+        statistic = indicators[statistic];
+        countryInfoElem.select('#statistic').text(statistic);
+        countryInfoElem.select('#score').text(Math.round(d[statistic]*100)/100);
     }
     else {
+        countryInfoElem.select('#statistic').text('');
+        countryInfoElem.select('#score').text('');
         countryInfoElem.select('#expenditure').style('display','block');
         d3.select('#healthExpenditure').text(getExpenditure('health', d));
         d3.select('#educationExpenditure').text(getExpenditure('education', d));
     }
-    countryInfoElem.select('#statistic').text(statistic);
-    countryInfoElem.select('#score').text(score);
 }
 
 function positionPopover() {
@@ -123,9 +122,6 @@ function positionPopover() {
 
 var visNode = d3.select('#visualization').node();
 
-function getScore(x) {
-    return Math.round(x*100)/100;
-}
 function showScore(elem, score) {
     elem.select('svg').remove();
     var svg = elem.append('svg').attr('height',25).attr('width',25);
@@ -152,34 +148,20 @@ function deselectAll() {
     d3.select('#countryInfoTip').text('Click to compare with another country');
 }
 deselectAll();
-function compare(c1, c2) {
+function compare(countries) {
     deselectAll();
-    d3.select('#compareName1').text(c1['country']);
-    d3.select('#compareName2').text(c2['country']);
-    d3.select('#compareHDI1').text(c1['hdi']).attr('class', classifyHDI(c1));
-    d3.select('#compareHDI2').text(c2['hdi']).attr('class', classifyHDI(c2));
-    d3.select('#compareRank1').text(c1['rank']);
-    d3.select('#compareRank2').text(c2['rank']);
-    d3.select('#compareHealth1').text(getExpenditure('health',c1));
-    d3.select('#compareHealth2').text(getExpenditure('health',c2));
-    d3.select('#compareEducation1').text(getExpenditure('education',c1));
-    d3.select('#compareEducation2').text(getExpenditure('education',c2));
-    d3.select('#comparePS1').text(getScore(c1['political stability & absence of violence']));
-    showScore(d3.select('#comparePSLev1'), c1['political stability & absence of violence']);
-    d3.select('#comparePS2').text(getScore(c2['political stability & absence of violence']));
-    showScore(d3.select('#comparePSLev2'), c2['political stability & absence of violence']);
-    d3.select('#compareGE1').text(getScore(c1['government effectiveness']));
-    showScore(d3.select('#compareGELev1'), c1['government effectiveness']);
-    d3.select('#compareGE2').text(getScore(c2['government effectiveness']));
-    showScore(d3.select('#compareGELev2'), c2['government effectiveness']);
-    d3.select('#compareRQ1').text(getScore(c1['regulatory quality']));
-    showScore(d3.select('#compareRQLev1'), c1['regulatory quality']);
-    d3.select('#compareRQ2').text(getScore(c2['regulatory quality']));
-    showScore(d3.select('#compareRQLev2'), c2['regulatory quality']);
-    d3.select('#compareRL1').text(getScore(c1['rule of law']));
-    showScore(d3.select('#compareRLLev1'), c1['rule of law']);
-    d3.select('#compareRL2').text(getScore(c2['rule of law']));
-    showScore(d3.select('#compareRLLev2'), c2['rule of law']);
+    for (var i=0; i<2; i++) {
+        var c = countries[i];
+        d3.select('#compareName' + i).text(c['country']);
+        d3.select('#compareHDI' + i).text(c['hdi']).attr('class', classifyHDI(c));
+        d3.select('#compareRank' + i).text(c['rank']);
+        d3.select('#compareHealth' + i).text(getExpenditure('health',c));
+        d3.select('#compareEducation' + i).text(getExpenditure('education',c));
+        for (var j=0; j<indicators.length; j++) {
+            d3.select('#compareIndicator' + j + i).text(Math.round(c[indicators[j]]*100)/100);
+            showScore(d3.select('#compareIndicator' + j + 'Lev' + i), c[indicators[j]]);
+        }
+    }
     d3.select('#countryComparison').style('top', (visNode.offsetTop+253)+'px').transition().duration(153).style('left', (visNode.offsetLeft + 286) + 'px');
 }
 function dismiss() {
@@ -232,7 +214,7 @@ gbackground.selectAll('path').data(data).enter().append('path').attr('d', functi
             deselectAll();
         }
         else {
-            compare(selected, d);
+            compare([selected, d]);
         }
     }
     else {
@@ -300,14 +282,9 @@ var circularPlot = function(y, outerRadius) {
         }
     }
 }
-var c = circularPlot('political stability & absence of violence', 450);
-c.draw(circular);
-c = circularPlot('government effectiveness', 400);
-c.draw(circular);
-c = circularPlot('regulatory quality', 350);
-c.draw(circular);
-c = circularPlot('rule of law', 300);
-c.draw(circular);
+_.each([450, 400, 350, 300], function(r, i) {
+    circularPlot(indicators[i], r).draw(circular);
+});
 
 var radialLineChart = function(y1, y2, outerRadius, class1, class2) {
     var validy1 = _.filter(data, function(c){return c[y1] !== null;});
@@ -347,8 +324,7 @@ var radialLineChart = function(y1, y2, outerRadius, class1, class2) {
     }
 }
 
-var r = radialLineChart('health', 'education', 250, 'healthexp', 'eduexp');
-r.draw(circular);
+radialLineChart('health', 'education', 250, 'healthexp', 'eduexp').draw(circular);
 
 circular.select('.info').attr('transform', centerTransform);
 circular.select('.annotations').attr('transform', centerTransform);
