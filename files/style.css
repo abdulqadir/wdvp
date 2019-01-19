@@ -97,11 +97,13 @@ path.lhdi, path.mhdi, path.hhdi, path.vhdi {
 .healthexp{
     color: #D209A5;
     stroke: #D209A5;
+    font-weight: 500;
 }
 
 .eduexp{
     color: #006FFF;
     stroke: #006FFF;
+    font-weight: 500;
 }
 path#LHDI, path#MHDI, path#HHDI, path#VHDI {
     fill: none;
@@ -124,14 +126,16 @@ path#LHDI, path#MHDI, path#HHDI, path#VHDI {
     position: absolute;
     opacity: 0;
     background-color: #FFF;
-    padding: 3px;
-    width: 210px;
+    padding: 5px;
     pointer-events: none;
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     box-shadow: 1px 1px 5px #d7d2c8;
 }
 #statistic {
     text-transform: capitalize;
+}
+#score {
+    font-weight: 500;
 }
 #countryName {
     font-size: 0.75rem;

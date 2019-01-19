@@ -104,7 +104,7 @@ function positionPopover() {
     var cmouse = d3.mouse(circular.node());
     cmouse[0] -= centerX;
     cmouse[1] -= centerY;
-    countryInfoElem.style('opacity', 0.8);
+    countryInfoElem.style('opacity', 0.85);
     var rect = countryInfoElem.node().getBoundingClientRect();
     if (cmouse[1] > 0){
         countryInfoElem.style('top', (mouse[1]+5)+'px');
