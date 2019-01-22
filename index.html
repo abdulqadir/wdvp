@@ -130,19 +130,22 @@
                                 <text x="345" y="50">% of GDP</text>
                             </svg>
                         </div>
-                        <p>Each country is represented as a single slice of the circle. Values increase towards the outer edge of each circle and decrease towards the center.<br>
+                        <p>Each country is represented as a single slice of the circle. Values increase towards the outer edge of each circle and decrease towards the center.</p>
+                        <p>
                         Governance indicator values are on a scale from -2.5 to 2.5. Values progress from 0 to 2.5 in case of good governance and from 0 to -2.5 in case of bad governance. Each bar shown in the visualization represents upto 0.5 points.
-                        <br>Hovering over any section shows the relevant data values for that country slice. Clicking on any two countries shows a comparison of their values.</p>
+                        </p>
+                        <p>
+                        Hovering over any section shows the relevant data values for that country slice. Clicking on any two countries shows a comparison of their values.</p>
                     </div>
                     <div class="col-6">
                         <div class="title">Data collection &amp; Methodology</div>
                         <div class="mt-1">
-                            All data used is from the year 2015 so as to maintain consistency while ensuring that sufficient data is available.<br>
+                            All data used is from the year 2015 so as to maintain consistency while ensuring that sufficient data is available.
                             Countries with insufficient or missing data have been excluded from analysis.<br>
-                            To calculate the list of countries with similar governance indicators, the mean squared difference between the four governance indicator scores for each pair of countries was calculated and the three countries having the lowest mean squared difference were selected for each reference country. In case the mean squared difference was greater than or equal to 0.2, the country was not considered for inclusion which has resulted in some countries having less than three similar countries in their list.
+                            To determine countries with similar governance indicators, the mean squared difference between the four governance indicator scores for each pair of countries was calculated and the three countries having the lowest mean squared difference were selected for each reference country. In case the mean squared difference was greater than or equal to 0.2, the country was not considered for inclusion which has resulted in some countries having less than three similar countries in their list.
                         </div>
                         <div class="mt-2">
-                            Data used in the visualization has been collected from the following sources:
+                            Data has been collected from the following sources:
                         <br>
                         <a href="http://hdr.undp.org/en/data#">http://hdr.undp.org/en/data#</a>
                         <br>
@@ -151,7 +154,31 @@
                         <a href="http://data.uis.unesco.org/?queryid=181">http://data.uis.unesco.org/?queryid=181</a>
                         <br>
                         <a href="http://info.worldbank.org/governance/wgi/#home">http://info.worldbank.org/governance/wgi/#home</a>
+                        <br>
+                        <a href="https://population.un.org/wpp/Download/Standard/Population/">United Nations, Department of Economic and Social Affairs, Population Division (2017). World Population Prospects: The 2017 Revision, DVD Edition.</a>
+                        <br>
+                        <a href="https://www.cia.gov/library/publications/the-world-factbook/fields/2147.html#al">https://www.cia.gov/library/publications/the-world-factbook/fields/2147.html#al</a>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section style="background-color:#FFF2E1;" class="footnote mt-4 pb-4">
+            <div class="container">
+                <div class="row">
+                    <div class="title my-4 col-12">Final Note</div>
+                    <div class="col-4">
+                        <svg id="areaDistribution"></svg>
+                    </div>
+                    <div class="col-4">
+                        <p>
+                        The 56 countries with a very high HDI cover the largest area of land on the planet. However, due to these including some very sparsely populated areas, they have less than a fifth of the world's population. In contrast, the 42 countries with medium HDI cover less than 15% landmass, but house over a third of the population.
+                        </p>
+                        <p>Hover over the images on the two sides to see a detailed breakup of landmass and population.
+                        </p>
+                    </div>
+                    <div class="col-4">
+                        <svg id="popDistribution"></svg>
                     </div>
                 </div>
             </div>
