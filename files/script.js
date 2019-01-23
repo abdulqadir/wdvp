@@ -350,3 +350,16 @@ function wave(start) {
 }
 legend.select('#lhexp').attr('d',lline(wave(210))).style('fill','none');
 legend.select('#leexp').attr('d',lline(wave(330))).style('fill','none');
+
+d3.selectAll('.fimg')
+.on('mouseover', function() {
+    var stats = d3.select('#' + d3.select(this).attr('data-overlay'));
+    stats.style('top', (this.offsetTop + this.offsetParent.offsetTop) + 'px');
+    stats.style('left', (this.offsetLeft + this.offsetParent.offsetLeft) + 'px');
+    stats.transition().duration(353).style('height', '210px')
+}).on('mouseout', function() {
+    var stats = d3.select('#' + d3.select(this).attr('data-overlay'));
+    stats.style('top', (this.offsetTop + this.offsetParent.offsetTop) + 'px');
+    stats.style('left', (this.offsetLeft + this.offsetParent.offsetLeft) + 'px');
+    stats.transition().duration(353).style('height', '0px')
+});
