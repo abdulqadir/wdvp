@@ -18,7 +18,7 @@ var classifyHDI = function(d) {
     return 'nodata';
 }
 
-var data = _.sortBy(data, function(c){return c['hdi'];});
+var data = _.sortBy(data, function(c){return c['rank'];}).reverse();
 var indicators = ['political stability & absence of violence','government effectiveness','regulatory quality','rule of law'];
 var htmlNode = d3.select('html').node();
 var countryInfoElem = d3.select('#countryInfoPopover');
